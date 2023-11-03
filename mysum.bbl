@@ -1,0 +1,303 @@
+\begin{thebibliography}{10}
+
+\bibitem{lamprecht2007cellprofiler}
+Michael~R Lamprecht, David~M Sabatini, and Anne~E Carpenter.
+\newblock Cellprofiler™: free, versatile software for automated biological
+  image analysis.
+\newblock {\em biotechniques}, 42(1):71--75, 2007.
+
+\bibitem{zhu2016deep}
+Xinliang Zhu, Jiawen Yao, and Junzhou Huang.
+\newblock Deep convolutional neural network for survival analysis with
+  pathological images.
+\newblock In {\em 2016 IEEE International Conference on Bioinformatics and
+  Biomedicine (BIBM)}, pages 544--547. IEEE, 2016.
+
+\bibitem{zhu2017wsisa}
+Xinliang Zhu, Jiawen Yao, Feiyun Zhu, and Junzhou Huang.
+\newblock Wsisa: Making survival prediction from whole slide histopathological
+  images.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 7234--7242, 2017.
+
+\bibitem{di2020ranking}
+Donglin Di, Shengrui Li, Jun Zhang, and Yue Gao.
+\newblock Ranking-based survival prediction on histopathological whole-slide
+  images.
+\newblock In {\em International Conference on Medical Image Computing and
+  Computer-Assisted Intervention}, pages 428--438. Springer, 2020.
+
+\bibitem{yao2020whole}
+Jiawen Yao, Xinliang Zhu, Jitendra Jonnagaddala, Nicholas Hawkins, and Junzhou
+  Huang.
+\newblock Whole slide images based cancer survival prediction using attention
+  guided deep multiple instance learning networks.
+\newblock {\em Medical Image Analysis}, 65:101789, 2020.
+
+\bibitem{abbet2020divide}
+Christian Abbet, Inti Zlobec, Behzad Bozorgtabar, and Jean-Philippe Thiran.
+\newblock Divide-and-rule: self-supervised learning for survival analysis in
+  colorectal cancer.
+\newblock In {\em Medical Image Computing and Computer Assisted
+  Intervention--MICCAI 2020: 23rd International Conference, Lima, Peru, October
+  4--8, 2020, Proceedings, Part V 23}, pages 480--489. Springer, 2020.
+
+\bibitem{yao2019deep}
+Jiawen Yao, Xinliang Zhu, and Junzhou Huang.
+\newblock Deep multi-instance learning for survival prediction from whole slide
+  images.
+\newblock In {\em Medical Image Computing and Computer Assisted
+  Intervention--MICCAI 2019: 22nd International Conference, Shenzhen, China,
+  October 13--17, 2019, Proceedings, Part I 22}, pages 496--504. Springer,
+  2019.
+
+\bibitem{mobadersany2018predicting}
+Pooya Mobadersany, Safoora Yousefi, Mohamed Amgad, David~A Gutman, Jill~S
+  Barnholtz-Sloan, Jos{\'e}~E Vel{\'a}zquez~Vega, Daniel~J Brat, and Lee~AD
+  Cooper.
+\newblock Predicting cancer outcomes from histology and genomics using
+  convolutional networks.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  115(13):E2970--E2979, 2018.
+
+\bibitem{chen2020pathomic}
+Richard~J Chen, Ming~Y Lu, Jingwen Wang, Drew~FK Williamson, Scott~J Rodig,
+  Neal~I Lindeman, and Faisal Mahmood.
+\newblock Pathomic fusion: an integrated framework for fusing histopathology
+  and genomic features for cancer diagnosis and prognosis.
+\newblock {\em IEEE Transactions on Medical Imaging}, 41(4):757--770, 2020.
+
+\bibitem{yao2017deep}
+Jiawen Yao, Xinliang Zhu, Feiyun Zhu, and Junzhou Huang.
+\newblock Deep correlational learning for survival prediction from
+  multi-modality data.
+\newblock In {\em International Conference on Medical Image Computing and
+  Computer-Assisted Intervention}, pages 406--414. Springer, 2017.
+
+\bibitem{wang2018comprehensive}
+Shidan Wang, Alyssa Chen, Lin Yang, Ling Cai, Yang Xie, Junya Fujimoto, Adi
+  Gazdar, and Guanghua Xiao.
+\newblock Comprehensive analysis of lung cancer pathology images to discover
+  tumor shape and boundary features that predict survival outcome.
+\newblock {\em Scientific reports}, 8(1):10393, 2018.
+
+\bibitem{mackenzie2022neural}
+Callum~Christopher Mackenzie, Muhammad Dawood, Simon Graham, Mark Eastwood,
+  et~al.
+\newblock Neural graph modelling of whole slide images for survival ranking.
+\newblock In {\em Learning on Graphs Conference}, pages 48--1. PMLR, 2022.
+
+\bibitem{ciga2022self}
+Ozan Ciga, Tony Xu, and Anne~Louise Martel.
+\newblock Self supervised contrastive learning for digital histopathology.
+\newblock {\em Machine Learning with Applications}, 7:100198, 2022.
+
+\bibitem{huang2021integration}
+Ziwang Huang, Hua Chai, Ruoqi Wang, Haitao Wang, Yuedong Yang, and Hejun Wu.
+\newblock Integration of patch features through self-supervised learning and
+  transformer for survival analysis on whole slide images.
+\newblock In {\em Medical Image Computing and Computer Assisted
+  Intervention--MICCAI 2021: 24th International Conference, Strasbourg, France,
+  September 27--October 1, 2021, Proceedings, Part VIII 24}, pages 561--570.
+  Springer, 2021.
+
+\bibitem{he2016deep}
+Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
+\newblock Deep residual learning for image recognition.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 770--778, 2016.
+
+\bibitem{he2020momentum}
+Kaiming He, Haoqi Fan, Yuxin Wu, Saining Xie, and Ross Girshick.
+\newblock Momentum contrast for unsupervised visual representation learning.
+\newblock In {\em Proceedings of the IEEE/CVF conference on computer vision and
+  pattern recognition}, pages 9729--9738, 2020.
+
+\bibitem{benkirane2022hyper}
+Hakim Benkirane, Maria Vakalopoulou, Stergios Christodoulidis, Ingrid-Judith
+  Garberis, Stefan Michiels, and Paul-Henry Courn{\`e}de.
+\newblock Hyper-adac: Adaptive clustering-based hypergraph representation of
+  whole slide images for survival analysis.
+\newblock In {\em Machine Learning for Health}, pages 405--418. PMLR, 2022.
+
+\bibitem{li2021dual}
+Bin Li, Yin Li, and Kevin~W Eliceiri.
+\newblock Dual-stream multiple instance learning network for whole slide image
+  classification with self-supervised contrastive learning.
+\newblock In {\em Proceedings of the IEEE/CVF conference on computer vision and
+  pattern recognition}, pages 14318--14328, 2021.
+
+\bibitem{riasatian2021fine}
+Abtin Riasatian, Morteza Babaie, Danial Maleki, Shivam Kalra, Mojtaba Valipour,
+  Sobhan Hemati, Manit Zaveri, Amir Safarpoor, Sobhan Shafiei, Mehdi Afshari,
+  et~al.
+\newblock Fine-tuning and training of densenet for histopathology image
+  representation using tcga diagnostic slides.
+\newblock {\em Medical Image Analysis}, 70:102032, 2021.
+
+\bibitem{guo2023higt}
+Ziyu Guo, Weiqin Zhao, Shujun Wang, and Lequan Yu.
+\newblock Higt: Hierarchical interaction graph-transformer for whole slide
+  image analysis.
+\newblock In {\em International Conference on Medical Image Computing and
+  Computer-Assisted Intervention}, pages 755--764. Springer, 2023.
+
+\bibitem{fan2022cancer}
+Lei Fan, Arcot Sowmya, Erik Meijering, and Yang Song.
+\newblock Cancer survival prediction from whole slide images with
+  self-supervised learning and slide consistency.
+\newblock {\em IEEE Transactions on Medical Imaging}, 2022.
+
+\bibitem{zhu2016lung}
+Xinliang Zhu, Jiawen Yao, Xin Luo, Guanghua Xiao, Yang Xie, Adi Gazdar, and
+  Junzhou Huang.
+\newblock Lung cancer survival prediction from pathological images and genetic
+  data—an integration study.
+\newblock In {\em 2016 IEEE 13th International Symposium on Biomedical Imaging
+  (ISBI)}, pages 1173--1176. IEEE, 2016.
+
+\bibitem{peng2009partial}
+Jie Peng, Pei Wang, Nengfeng Zhou, and Ji~Zhu.
+\newblock Partial correlation estimation by joint sparse regression models.
+\newblock {\em Journal of the American Statistical Association},
+  104(486):735--746, 2009.
+
+\bibitem{sun2018integrating}
+Dongdong Sun, Ao~Li, Bo~Tang, and Minghui Wang.
+\newblock Integrating genomic data and pathological images to effectively
+  predict breast cancer clinical outcome.
+\newblock {\em Computer methods and programs in biomedicine}, 161:45--53, 2018.
+
+\bibitem{tibshirani1997lasso}
+Robert Tibshirani.
+\newblock The lasso method for variable selection in the cox model.
+\newblock {\em Statistics in medicine}, 16(4):385--395, 1997.
+
+\bibitem{yang2013cocktail}
+Yi~Yang and Hui Zou.
+\newblock A cocktail algorithm for solving the elastic net penalized cox’s
+  regression in high dimensions.
+\newblock {\em Statistics and its Interface}, 6(2):167--173, 2013.
+
+\bibitem{kalbfleisch2011statistical}
+John~D Kalbfleisch and Ross~L Prentice.
+\newblock {\em The statistical analysis of failure time data}.
+\newblock John Wiley \& Sons, 2011.
+
+\bibitem{ishwaran2008random}
+Hemant Ishwaran, Udaya~B Kogalur, Eugene~H Blackstone, and Michael~S Lauer.
+\newblock Random survival forests.
+\newblock 2008.
+
+\bibitem{mayr2014boosting}
+Andreas Mayr and Matthias Schmid.
+\newblock Boosting the concordance index for survival data--a unified framework
+  to derive and evaluate biomarker combinations.
+\newblock {\em PloS one}, 9(1):e84483, 2014.
+
+\bibitem{bair2006prediction}
+Eric Bair, Trevor Hastie, Debashis Paul, and Robert Tibshirani.
+\newblock Prediction by supervised principal components.
+\newblock {\em Journal of the American Statistical Association},
+  101(473):119--137, 2006.
+
+\bibitem{cheerla2019deep}
+Anika Cheerla and Olivier Gevaert.
+\newblock Deep learning with multimodal representation for pancancer prognosis
+  prediction.
+\newblock {\em Bioinformatics}, 35(14):i446--i454, 2019.
+
+\bibitem{srivastava2015highway}
+Rupesh~Kumar Srivastava, Klaus Greff, and J{\"u}rgen Schmidhuber.
+\newblock Highway networks.
+\newblock {\em arXiv preprint arXiv:1505.00387}, 2015.
+
+\bibitem{iandola2016squeezenet}
+Forrest~N Iandola, Song Han, Matthew~W Moskewicz, Khalid Ashraf, William~J
+  Dally, and Kurt Keutzer.
+\newblock Squeezenet: Alexnet-level accuracy with 50x fewer parameters and< 0.5
+  mb model size.
+\newblock {\em arXiv preprint arXiv:1602.07360}, 2016.
+
+\bibitem{shao2018ordinal}
+Wei Shao, Jun Cheng, Liang Sun, Zhi Han, Qianjin Feng, Daoqiang Zhang, and Kun
+  Huang.
+\newblock Ordinal multi-modal feature selection for survival analysis of
+  early-stage renal cancer.
+\newblock In {\em International Conference on Medical Image Computing and
+  Computer-Assisted Intervention}, pages 648--656. Springer, 2018.
+
+\bibitem{phoulady2016nucleus}
+Hady~Ahmady Phoulady, Dmitry~B Goldgof, Lawrence~O Hall, and Peter~R Mouton.
+\newblock Nucleus segmentation in histology images with hierarchical multilevel
+  thresholding.
+\newblock In {\em Medical Imaging 2016: Digital Pathology}, volume 9791, pages
+  280--285. SPIE, 2016.
+
+\bibitem{shao2019integrative}
+Wei Shao, Zhi Han, Jun Cheng, Liang Cheng, Tongxin Wang, Liang Sun, Zixiao Lu,
+  Jie Zhang, Daoqiang Zhang, and Kun Huang.
+\newblock Integrative analysis of pathological images and multi-dimensional
+  genomic data for early-stage cancer prognosis.
+\newblock {\em IEEE transactions on medical imaging}, 39(1):99--110, 2019.
+
+\bibitem{cheng2017integrative}
+Jun Cheng, Jie Zhang, Yatong Han, Xusheng Wang, Xiufen Ye, Yuebo Meng, Anil
+  Parwani, Zhi Han, Qianjin Feng, and Kun Huang.
+\newblock Integrative analysis of histopathological images and genomic data
+  predicts clear cell renal cell carcinoma prognosis.
+\newblock {\em Cancer research}, 77(21):e91--e100, 2017.
+
+\bibitem{witten2009extensions}
+Daniela~M Witten and Robert~J Tibshirani.
+\newblock Extensions of sparse canonical correlation analysis with applications
+  to genomic data.
+\newblock {\em Statistical applications in genetics and molecular biology},
+  8(1), 2009.
+
+\bibitem{hao2019page}
+Jie Hao, Sai~Chandra Kosaraju, Nelson~Zange Tsaku, Dae~Hyun Song, and Mingon
+  Kang.
+\newblock Page-net: interpretable and integrative deep learning for survival
+  analysis using histopathological images and genomic data.
+\newblock In {\em Pacific Symposium on Biocomputing 2020}, pages 355--366.
+  World Scientific, 2019.
+
+\bibitem{hao2018cox}
+Jie Hao, Youngsoon Kim, Tejaswini Mallavarapu, Jung~Hun Oh, and Mingon Kang.
+\newblock Cox-pasnet: pathway-based sparse deep neural network for survival
+  analysis.
+\newblock In {\em 2018 IEEE international conference on bioinformatics and
+  biomedicine (BIBM)}, pages 381--386. IEEE, 2018.
+
+\bibitem{klambauer2017self}
+G{\"u}nter Klambauer, Thomas Unterthiner, Andreas Mayr, and Sepp Hochreiter.
+\newblock Self-normalizing neural networks.
+\newblock {\em Advances in neural information processing systems}, 30, 2017.
+
+\bibitem{arevalo2017gated}
+John Arevalo, Thamar Solorio, Manuel Montes-y G{\'o}mez, and Fabio~A
+  Gonz{\'a}lez.
+\newblock Gated multimodal units for information fusion.
+\newblock {\em arXiv preprint arXiv:1702.01992}, 2017.
+
+\bibitem{wang2021ammasurv}
+Ruoqi Wang, Ziwang Huang, Haitao Wang, and Hejun Wu.
+\newblock Ammasurv: asymmetrical multi-modal attention for accurate survival
+  analysis with whole slide images and gene expression data.
+\newblock In {\em 2021 IEEE International Conference on Bioinformatics and
+  Biomedicine (BIBM)}, pages 757--760. IEEE, 2021.
+
+\bibitem{qiu2023deep}
+Lin Qiu, Aminollah Khormali, and Kai Liu.
+\newblock Deep biological pathway informed pathology-genomic multimodal
+  survival prediction.
+\newblock {\em arXiv preprint arXiv:2301.02383}, 2023.
+
+\bibitem{wang2021gpdbn}
+Zhiqin Wang, Ruiqing Li, Minghui Wang, and Ao~Li.
+\newblock Gpdbn: deep bilinear network integrating both genomic data and
+  pathological images for breast cancer prognosis prediction.
+\newblock {\em Bioinformatics}, 37(18):2963--2970, 2021.
+
+\end{thebibliography}
