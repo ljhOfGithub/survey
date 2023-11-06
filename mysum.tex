@@ -134,7 +134,7 @@ Without the knowledge of each patch-level labels, the self-supervised learning m
 % abstract
 The method named SimCLR in \cite{ciga2022self}, one of the self-supervised learning(SSL) methods, using the contrastive learning has excellent feature extraction capacity even comparable to the supervised learning model thanks to the collected 57 digital histopathology datasets with none labels.
 % Integration of Patch；Train Feature Extraction Model；Recent studies have shown；
-SeTranSurv, the proposed model in \cite{huang2021integration} applies SimCLR to train the initial feature extraction model ResNet18\cite{he2016deep} to get the specialized model for our downstream task survival prediction.
+SeTranSurv, the proposed model in \cite{huang2021integration} applies SimCLR to train the initial feature extraction model ResNet18\cite{he2016deep} to get the specialized model for downstream task survival prediction.
 During the training the model applies the contrastive loss\cite{he2020momentum} to enhance feature extraction ability.
 Firstly augmentation module in SeTranSurv using two methods to transform a random image example to a position pair, then the model uses the fine-tuned feature extractor raised above to get the features. 
 Considering other images as negative examples ensures that the views of different slide images are far apart in the high-dimensional space and the views of the same image are closer in the process of training.
@@ -146,6 +146,8 @@ Aside from SimCLR as a strategy used in \cite{benkirane2022hyper} and \cite{li20
 % Feature Extraction Via
 Without using convnet-based methods, the model in \cite{fan2022cancer} also considers the self-supervised learning (SSL) methods mainly for making full use of plentiful color information designed for WSI patches or pixels without hand-actuated labels, totally colorization and cross-channel as the pretext tasks.
 The colorization model is trained to predict corresponding color channels based on the lightness channel and the letter, on the other hand, is trained to get lightness channel using given color channels data, after which the visualized results indicating highlighted overall structure of nuclei and tissue.
+
+Unlike prior studies that pick and choose specific regions of interest (ROIs) from whole-slide images (WSIs) for survival analysis, new method can utilize the complete tissue and tumor micro-environment without the need for detailed annotations within WSIs. Additionally, it can seamlessly incorporate multiple diagnostic slides of various dimensions from a single patient sample for both training and inference in a unified framework.
 
 \subsection{Multimodal}
 One limitation for some existing survival models is that they initially focus on one modality and cannot sufficiently handle multi-modalities data. 
@@ -160,6 +162,8 @@ These elements are not distinguishable by traditional Multiple Instance Learning
 For instance, they include the co-occurrence of tumor cells and lymphocyte infiltrates, which is linked to a positive prognosis. 
 This necessitates the modeling of interactions over medium to long distances among instances within Whole Slide Images (WSI).
 While it is commonly tackled as a weakly-supervised problem utilizing solely gigapixel Whole Slide Images (WSIs), the conventional perspective on survival outcome prediction views it as a multi-modal learning task.
+Due to the variant costs and trauma degree of multi-omics examination, the scenarios of missing modalities are very common.  
+
 % LUNG CANCER SURVIVAL PREDICTION
 The model in \cite{zhu2016lung} gets the features from the pathological images extracted using Cellprofiler\cite{lamprecht2007cellprofiler} from the image tiles in ROIs,namely geometry, texture, holistic features.In addition,the model uses the preprocessed genetic data and one feature selection operation SPACE\cite{peng2009partial} to select representative features to integrate data for the principal component regression model for survival prediction.
 The experiments focusing on ADC lung cancer revealed that the results could be better than only using data of genes or images, which demonstrated that the genetic data could actually enhance the prediction performance of the survival analysis model to some extent.
@@ -291,13 +295,25 @@ Genomic data processing involves data cleaning, normalization, and feature selec
 To process the missing values, the model uses the weighted nearest neighbors algorithm like \cite{ding2016evaluating}.
 Pathological images are quantitatively analyzed to extract relevant features. 
 
-% MMGL
-
-% Lite-ProSENet
-
 % PORPOISE
+The main contribution Richard et al. in \cite{chen2022pan} is the development of a research tool, the Pathology-Omics Research Platform for Integrative Survival Estimation (PORPOISE). 
+PORPOISE is an interactive platform that provides prognostic markers learned by model for thousands of patients across 14 cancer types. 
+It allows users to visualize H\&E images with interpretability overlays, local explanations of molecular features, and global patterns of feature importance. 
+They used PORPOISE to analyze high-attention morphological regions in whole slide images and confirmed that the presence of tumor-infiltrating lymphocytes correlates with favorable cancer prognosis, as identified by their model. 
+This tool facilitates the discovery of joint image-omic biomarkers.
+PORPOISE consists of three network components: an attention-based multiple instance learning network (AMIL) for WSI inputs, a self-normalizing network (SNN) for molecular features, and a multimodal fusion layer (MMF) to integrate feature representations from AMIL and SNN.  
+AMIL localizes prognostically relevant regions in WSIs without selective patch sampling and aggregates them for feature representation.  
+SNN transforms molecular data into low-dimensional features.  
+The model constructs a joint multimodal feature representation for histology and molecular data interactions, which is used for survival analysis.
+One drawback of the platform is that while PORPOISE can elucidate "what," it may not always provide an explanation for "why."
 
 % GC-SPLeM
+In the model introduced in \cite{xie2022survival}, Xie et al. utilized a multimodal attention module to generate well-structured aggregated feature embeddings for patients and their association matrix. 
+Using these embeddings as the foundation, they constructed a graph neural network for predicting survival outcomes.
+Thanks to the superior graph quality and effective node aggregation process, the GNN model achieves precise predictions in both datasets with complete and incomplete data, offering a viable solution for handling the problem of missing data.
+Each patient is treated as a node in a KNN-affinity graph, enabling the learning and encoding of topological structure and neighborhood information into each patient's feature vector.  
+Unlike previous studies that treated patches of WSIs as nodes in a graph, this work innovatively constructs a graph of patients in datasets, motivated by the idea that patients with similar WSI and gene expression data are likely to have similar survival outcomes.  
+This approach helps enhance patient representations, especially given the noisy and missing data often present in WSIs and gene expression datasets.
 
 % ponet；pathway-based approaches
 Apart from this, another approach to add the genotypic information is using the biological pathway databases to teach the model about the hidden biological functionality.
@@ -306,8 +322,18 @@ Getting each uni-modal fusion, the model can use the output representations as t
 Finally the model is trained through the Cox partial likelihood loss proposed by \cite{cheerla2019deep} used for the multi-modalities survival prediction to get the prediction results.
 
 % HGCN
+The model in \cite{hou2023hybrid} introduces multi-modal graphs as a foundation for a novel Hypergraph Convolution Network (HGCN) designed to extract prognostic-related information. 
+The HGCN employs a node message passing mechanism for intra-modal interactions and a hyperedge mixing module for advanced modal interaction. 
+Survival predictions were made by combining modalities using an online Multi-view Autoencoder (MAE) proposed in \cite{he2022masked} paradigm during model inference.
+The research systematically explored the robustness of the multimodal survival prediction model, addressing an overlooked clinical challenge. 
+To handle missing modalities, an online MAE method captures intrinsic dependencies and generates hyperedges. 
+Several techniques are employed for handling missing modalities, including zero padding, multimodal factorized method (MFM) for reconstruction, autoencoders \cite{tran2017missing} \cite{liu2021incomplete}, and a lower-bound approach without the online MAE.
+The experiments showed that the online MAE module played a key role in improving the prediction robustness.
+The study underscored the potential of masked signal modeling for self-supervised learning across different scientific domains.
 
 % DeepCoxSC
+
+
 
 \subsection{WSI Features Fusion}
 
