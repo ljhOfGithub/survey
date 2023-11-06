@@ -299,6 +299,34 @@ Lu{\'\i}s~A Vale-Silva and Karl Rohr.
 \newblock Long-term cancer survival prediction using multimodal deep learning.
 \newblock {\em Scientific Reports}, 11(1):13505, 2021.
 
+\bibitem{chen2021multimodal}
+Richard~J Chen, Ming~Y Lu, Wei-Hung Weng, Tiffany~Y Chen, Drew~FK Williamson,
+  Trevor Manz, Maha Shady, and Faisal Mahmood.
+\newblock Multimodal co-attention transformer for survival prediction in
+  gigapixel whole slide images.
+\newblock In {\em Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, pages 4015--4025, 2021.
+
+\bibitem{lv2021pg}
+Zhilong Lv, Yuexiao Lin, Rui Yan, Zhenghe Yang, Ying Wang, and Fa~Zhang.
+\newblock Pg-tfnet: transformer-based fusion network integrating pathological
+  images and genomic data for cancer survival analysis.
+\newblock In {\em 2021 IEEE International Conference on Bioinformatics and
+  Biomedicine (BIBM)}, pages 491--496. IEEE, 2021.
+
+\bibitem{yu2019breast}
+Fulong Yu, Fei Quan, Jinyuan Xu, Yan Zhang, Yi~Xie, Jingyu Zhang, Yujia Lan,
+  Huating Yuan, Hongyi Zhang, Shujun Cheng, et~al.
+\newblock Breast cancer prognosis signature: linking risk stratification to
+  disease subtypes.
+\newblock {\em Briefings in bioinformatics}, 20(6):2130--2140, 2019.
+
+\bibitem{ding2016evaluating}
+Zijian Ding, Songpeng Zu, and Jin Gu.
+\newblock Evaluating the molecule-based prediction of clinical drug responses
+  in cancer.
+\newblock {\em Bioinformatics}, 32(19):2891--2895, 2016.
+
 \bibitem{qiu2023deep}
 Lin Qiu, Aminollah Khormali, and Kai Liu.
 \newblock Deep biological pathway informed pathology-genomic multimodal

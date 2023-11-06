@@ -155,7 +155,11 @@ Therefore,it is essential and necessary to combine and integrate multi-modal dat
 Although hematoxylin and eosin (H\&E)-stained slides are enough to build a comprehensive diagnosis, other modal data can provide a deeper description of the tumor. For example, genomic profiles being comprising of ten thousand dimensional sequences can provide a molecular characterization of the tumor.
 Additionally,during the past several decades, multiple clinicians have made clinical cancer survival prediction on the basis of clinical variates and experience, therefore the clinical data is also an important source modality for multi-modal survival prediction.
 However, multi-modal survival prediction faces an important challenge due to the huge data heterogeneity gap between WSIs and other modalities, and many proposed approaches use simple multi-modal fusion mechanisms for feature incorporation, which give up mining important multi-modal relationships.
-
+Unlike needle-in-a-haystack challenges, survival outcome prediction involves the modeling of diverse visual elements within the tumor micro-environment. 
+These elements are not distinguishable by traditional Multiple Instance Learning (MIL) methods. 
+For instance, they include the co-occurrence of tumor cells and lymphocyte infiltrates, which is linked to a positive prognosis. 
+This necessitates the modeling of interactions over medium to long distances among instances within Whole Slide Images (WSI).
+While it is commonly tackled as a weakly-supervised problem utilizing solely gigapixel Whole Slide Images (WSIs), the conventional perspective on survival outcome prediction views it as a multi-modal learning task.
 % LUNG CANCER SURVIVAL PREDICTION
 The model in \cite{zhu2016lung} gets the features from the pathological images extracted using Cellprofiler\cite{lamprecht2007cellprofiler} from the image tiles in ROIs,namely geometry, texture, holistic features.In addition,the model uses the preprocessed genetic data and one feature selection operation SPACE\cite{peng2009partial} to select representative features to integrate data for the principal component regression model for survival prediction.
 The experiments focusing on ADC lung cancer revealed that the results could be better than only using data of genes or images, which demonstrated that the genetic data could actually enhance the prediction performance of the survival analysis model to some extent.
@@ -235,8 +239,8 @@ In the model proposed in \cite{chen2020pathomic}, the cell graphs from histology
 To build cell graphs, the first step is generating accurate nuclei segmentation, in which a conditional generative adversarial network (cGAN) is used to learn the appropriate loss function for semantic segmentation.
 The edge set and adjacency matrix of the graph are constructed using the K-Nearest Neighbors (KNN) algorithm from segmented cell nuclei.
 In addition to manually computed statistics, an unsupervised technique called Contrastive Predictive Coding (CPC) is employed to extract 1024-dimensional features from tissue regions centered around each cell.
-Graph Convolutional Networks (GCNs) learn abstract feature representations for each node by aggregating feature vectors from their neighborhood through message passing.
-In scenarios with a high-dimensional feature space and limited training samples, traditional feedforward neural networks are susceptible to overfitting. 
+Graph Convolution Networks (GCNs) learn abstract feature representations for each node by aggregating feature vectors from their neighborhood through message passing.
+In scenarios with a high-dimensional feature space and limited training samples, traditional feed-forward neural networks are susceptible to over-fitting. 
 To address the challenge and apply more robust regularization techniques when training feed-forward networks on high-dimensional, low-sample-size genomics data, the model adopts normalization layers inspired by Self-Normalizing Networks introduced by Klambaeur et al\cite{klambauer2017self}.
 Moreover, the Kronecker Product is used to construct a multi-modal representation. 
 The feature vectors of histology images, cell graphs, and genomic features undergo matrix outer product operations to create a multi-modal tensor. 
@@ -250,23 +254,42 @@ When fusing histology images, cell graphs, and genomic features, the gating mech
 To integrate the multi-modality data with different weights, the model proposed in \cite{wang2021ammasurv} uses an asymmetrical Transformer encoder.
 The main idea to fuse other modality data unevenly is to add the new nodes and edges into the original graphs.
 Different from the normal self-attention in Transformer, the noisy genomic nodes cannot impact the image features because they do not have the outgoing edges, which can only improve themselves by the influence of the imaging features.
-
 % GPDBN
-GPDBN in \cite{wang2021gpdbn} uses Kronecker product to build inter-modality and intra-modality interactions between pathology and genomic data for cancer prognosis prediction.
+The GPDBN framework in \cite{wang2021gpdbn} comprises an inter-modality bilinear feature encoding module (Inter-BFEM) and two intra-modality bilinear feature encoding modules (Intra-BFEMs) to efficiently handle information interactions both across and within genomic data and pathological images.
+This work needs further more data to enhance prognostic performance.
 
 % MultiSurv
 Similar to the MultimodalPrognosis mentioned, the model in \cite{vale2021long} can also process the missing data which includes tabular clinical data (herein simply referred to as “clinical”), gene expression (referred to as “mRNA”), microRNA expression (miRNA), DNA methylation (DNAm), gene copy number variation (CNV) data, and whole-slide images (WSI).
 If some patients loss the whole modality data, they will be excluded when training the model using uni-modal data.
 And the missing data will be replaced by zero matrix when training the multi-modal model.
-To avoid overfitting, the model has the mechanism to select some patients randomly and replace their specific modality data with zero input.
+To avoid over-fitting, the model has the mechanism to select some patients randomly and replace their specific modality data with zero input.
+The t-SNE visualization reveals that patients with different cancer types occupy distinct clusters in a two-dimensional space, aligning well with known cancer type prognosis.
+The model is trained end-to-end and delivers non-proportional outputs, achieving accurate long-term predictions across various cancer entities. 
+Clinical data is identified as the most informative unimodal data modality.
 
 % MCAT
+Inspired by methods in Visual Question Answering (VQA), the model in \cite{chen2021multimodal} introduces new approach to let histology patches attend to genes in the survival prediction.
+Unlike late fusion-based architectures that simply concatenate WSI-level bag representations with genomic features, the genomic-guided co-attention(GCA) layer captures multi-modal interactions, connecting histology-based visual concepts with gene embeddings, similar to the approach used in VQA.  
+These interactions are visualized as attention heatmaps at the WSI level for each genomic embedding.
+Additionally, the GCA layer reduces the effective "sequence length" of WSI bags from M instance-level patch features to N gene-guided visual concepts, where N represents the effective sequence length of gene embeddings (with M > N). 
+This reduction enables more advanced feature aggregation techniques using self-attention and Transformers, allowing for supervision with entire WSIs, which was previously unattainable.
+One limitation of the research was that they utilized a gene set that had been curated previously, and it contained genes with overlapping biological functional impact.
 
 % PG-TFNet
-
+The PG-TFNet proposed in \cite{lv2021pg} comprises three modules: a transformer-based multi-scale pathological feature fusion module, a cross-attention transformer-based multi-modal feature fusion module, and a final Cox layer for clinical data integration. 
+The multi-scale feature fusion module processes pathological images at different magnification levels using transformer encoders, capturing relationships between image patches. 
+The feature vectors from various magnification levels are concatenated, and a learnable class token and fixed positional encoding vector are introduced to create a multi-scale feature sequence. 
+The multi-scale feature sequence is then input into a stack of transformer encoders for multi-scale feature fusion. 
+This approach enables the extraction of morphological features at various field-of-view scales, improving the model's ability to understand the relationships between image patches.
+The model utilizes a cross-attention transformer module to integrate pathological and genomic data. 
+This module combines feature representations from both data types, enabling effective multi-modal data fusion for improved analysis of cancer prognosis.
 
 % HFBSurv
-To overcome the limitation of Kronecker product, HFBSurv extended GPDBN mentioned with the factorized bilinear model.
+To overcome the limitation of Kronecker product, HFBSurv extended GPDBN\cite{wang2021gpdbn} mentioned with the factorized bilinear model.
+The model introduces a hierarchical multi-modal fusion approach, which employs factorized bilinear models to progressively integrate information from different levels, reducing computational complexity.  
+Genomic data processing involves data cleaning, normalization, and feature selection using randomForestSRC\cite{yu2019breast}.
+To process the missing values, the model uses the weighted nearest neighbors algorithm like \cite{ding2016evaluating}.
+Pathological images are quantitatively analyzed to extract relevant features. 
 
 % MMGL
 
@@ -285,8 +308,6 @@ Finally the model is trained through the Cox partial likelihood loss proposed by
 % HGCN
 
 % DeepCoxSC
-
-
 
 \subsection{WSI Features Fusion}
 
