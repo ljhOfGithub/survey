@@ -288,16 +288,21 @@ Ruoqi Wang, Ziwang Huang, Haitao Wang, and Hejun Wu.
 \newblock In {\em 2021 IEEE International Conference on Bioinformatics and
   Biomedicine (BIBM)}, pages 757--760. IEEE, 2021.
 
-\bibitem{qiu2023deep}
-Lin Qiu, Aminollah Khormali, and Kai Liu.
-\newblock Deep biological pathway informed pathology-genomic multimodal
-  survival prediction.
-\newblock {\em arXiv preprint arXiv:2301.02383}, 2023.
-
 \bibitem{wang2021gpdbn}
 Zhiqin Wang, Ruiqing Li, Minghui Wang, and Ao~Li.
 \newblock Gpdbn: deep bilinear network integrating both genomic data and
   pathological images for breast cancer prognosis prediction.
 \newblock {\em Bioinformatics}, 37(18):2963--2970, 2021.
+
+\bibitem{vale2021long}
+Lu{\'\i}s~A Vale-Silva and Karl Rohr.
+\newblock Long-term cancer survival prediction using multimodal deep learning.
+\newblock {\em Scientific Reports}, 11(1):13505, 2021.
+
+\bibitem{qiu2023deep}
+Lin Qiu, Aminollah Khormali, and Kai Liu.
+\newblock Deep biological pathway informed pathology-genomic multimodal
+  survival prediction.
+\newblock {\em arXiv preprint arXiv:2301.02383}, 2023.
 
 \end{thebibliography}
