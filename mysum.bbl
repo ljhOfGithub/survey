@@ -290,4 +290,39 @@ Ruoyu Li, Jiawen Yao, Xinliang Zhu, Yeqing Li, and Junzhou Huang.
 \newblock Graph cnn for survival analysis on whole slide pathological images.
 \newblock In {\em International Conference on Medical Image Computing and Computer-Assisted Intervention}, pages 174--182. Springer, 2018.
 
+\bibitem{chen2021whole}
+Richard~J Chen, Ming~Y Lu, Muhammad Shaban, Chengkuan Chen, Tiffany~Y Chen, Drew~FK Williamson, and Faisal Mahmood.
+\newblock Whole slide images are 2d point clouds: Context-aware survival prediction using patch-based graph convolutional networks.
+\newblock In {\em Medical Image Computing and Computer Assisted Intervention--MICCAI 2021: 24th International Conference, Strasbourg, France, September 27--October 1, 2021, Proceedings, Part VIII 24}, pages 339--349. Springer, 2021.
+
+\bibitem{li2019deepgcns}
+Guohao Li, Matthias Muller, Ali Thabet, and Bernard Ghanem.
+\newblock Deepgcns: Can gcns go as deep as cnns?
+\newblock In {\em Proceedings of the IEEE/CVF international conference on computer vision}, pages 9267--9276, 2019.
+
+\bibitem{lee2022derivation}
+Yongju Lee, Jeong~Hwan Park, Sohee Oh, Kyoungseob Shin, Jiyu Sun, Minsun Jung, Cheol Lee, Hyojin Kim, Jin-Haeng Chung, Kyung~Chul Moon, et~al.
+\newblock Derivation of prognostic contextual histopathological features from whole-slide images of tumours via graph deep learning.
+\newblock {\em Nature Biomedical Engineering}, pages 1--15, 2022.
+
+\bibitem{wu2022deepgcnmil}
+Fei Wu, Pei Liu, Bo~Fu, and Feng Ye.
+\newblock Deepgcnmil: Multi-head attention guided multi-instance learning approach for whole-slide images survival analysis using graph convolutional networks.
+\newblock In {\em 2022 14th International Conference on Machine Learning and Computing (ICMLC)}, pages 67--73, 2022.
+
+\bibitem{di2022big}
+Donglin Di, Jun Zhang, Fuqiang Lei, Qi~Tian, and Yue Gao.
+\newblock Big-hypergraph factorization neural network for survival prediction from whole slide image.
+\newblock {\em IEEE Transactions on Image Processing}, 31:1149--1160, 2022.
+
+\bibitem{liu2023graphlsurv}
+Pei Liu, Luping Ji, Feng Ye, and Bo~Fu.
+\newblock Graphlsurv: A scalable survival prediction network with adaptive and sparse structure learning for histopathological whole-slide images.
+\newblock {\em Computer Methods and Programs in Biomedicine}, 231:107433, 2023.
+
+\bibitem{hou2022h}
+Wentai Hou, Lequan Yu, Chengxuan Lin, Helong Huang, Rongshan Yu, Jing Qin, and Liansheng Wang.
+\newblock H\^{} 2-mil: Exploring hierarchical representation with heterogeneous multiple instance learning for whole slide image analysis.
+\newblock In {\em Proceedings of the AAAI conference on artificial intelligence}, volume~36, pages 933--941, 2022.
+
 \end{thebibliography}
