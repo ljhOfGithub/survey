@@ -300,10 +300,25 @@ Guohao Li, Matthias Muller, Ali Thabet, and Bernard Ghanem.
 \newblock Deepgcns: Can gcns go as deep as cnns?
 \newblock In {\em Proceedings of the IEEE/CVF international conference on computer vision}, pages 9267--9276, 2019.
 
+\bibitem{velickovic2017graph}
+Petar Velickovic, Guillem Cucurull, Arantxa Casanova, Adriana Romero, Pietro Lio, Yoshua Bengio, et~al.
+\newblock Graph attention networks.
+\newblock {\em stat}, 1050(20):10--48550, 2017.
+
 \bibitem{lee2022derivation}
 Yongju Lee, Jeong~Hwan Park, Sohee Oh, Kyoungseob Shin, Jiyu Sun, Minsun Jung, Cheol Lee, Hyojin Kim, Jin-Haeng Chung, Kyung~Chul Moon, et~al.
 \newblock Derivation of prognostic contextual histopathological features from whole-slide images of tumours via graph deep learning.
 \newblock {\em Nature Biomedical Engineering}, pages 1--15, 2022.
+
+\bibitem{stanley2018compressing}
+Natalie Stanley, Roland Kwitt, Marc Niethammer, and Peter~J Mucha.
+\newblock Compressing networks with super nodes.
+\newblock {\em Scientific reports}, 8(1):10892, 2018.
+
+\bibitem{di2022generating}
+Donglin Di, Changqing Zou, Yifan Feng, Haiyan Zhou, Rongrong Ji, Qionghai Dai, and Yue Gao.
+\newblock Generating hypergraph-based high-order representations of whole-slide histopathological images for survival prediction.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence}, 45(5):5800--5815, 2022.
 
 \bibitem{wu2022deepgcnmil}
 Fei Wu, Pei Liu, Bo~Fu, and Feng Ye.
@@ -329,10 +344,5 @@ Wentai Hou, Lequan Yu, Chengxuan Lin, Helong Huang, Rongshan Yu, Jing Qin, and L
 Wenqi Lu, Michael Toss, Muhammad Dawood, Emad Rakha, Nasir Rajpoot, and Fayyaz Minhas.
 \newblock Slidegraph+: Whole slide image level graphs to predict her2 status in breast cancer.
 \newblock {\em Medical Image Analysis}, 80:102486, 2022.
-
-\bibitem{di2022generating}
-Donglin Di, Changqing Zou, Yifan Feng, Haiyan Zhou, Rongrong Ji, Qionghai Dai, and Yue Gao.
-\newblock Generating hypergraph-based high-order representations of whole-slide histopathological images for survival prediction.
-\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence}, 45(5):5800--5815, 2022.
 
 \end{thebibliography}
