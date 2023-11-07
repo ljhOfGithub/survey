@@ -325,4 +325,14 @@ Wentai Hou, Lequan Yu, Chengxuan Lin, Helong Huang, Rongshan Yu, Jing Qin, and L
 \newblock H\^{} 2-mil: Exploring hierarchical representation with heterogeneous multiple instance learning for whole slide image analysis.
 \newblock In {\em Proceedings of the AAAI conference on artificial intelligence}, volume~36, pages 933--941, 2022.
 
+\bibitem{lu2022slidegraph+}
+Wenqi Lu, Michael Toss, Muhammad Dawood, Emad Rakha, Nasir Rajpoot, and Fayyaz Minhas.
+\newblock Slidegraph+: Whole slide image level graphs to predict her2 status in breast cancer.
+\newblock {\em Medical Image Analysis}, 80:102486, 2022.
+
+\bibitem{di2022generating}
+Donglin Di, Changqing Zou, Yifan Feng, Haiyan Zhou, Rongrong Ji, Qionghai Dai, and Yue Gao.
+\newblock Generating hypergraph-based high-order representations of whole-slide histopathological images for survival prediction.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence}, 45(5):5800--5815, 2022.
+
 \end{thebibliography}
