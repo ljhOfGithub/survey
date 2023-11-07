@@ -33,6 +33,8 @@ Research Institute for Metals, Tsukuba, Japan (e-mail: author@nrim.go.jp).}}
 \end{abstract}
 
 \begin{IEEEkeywords}
+
+
 Enter about five key words or phrases in alphabetical order, separated by commas.
 Cancer survival analysis,Cancer survival prediction,deep learning,whole slide image
 \end{IEEEkeywords}
@@ -40,6 +42,8 @@ Cancer survival analysis,Cancer survival prediction,deep learning,whole slide im
 \section{Introduction}
 \label{sec:introduction}
 % motivation 添加 
+
+
 Survival prediction is a direction of statistics for analyzing the duration time that is expected until the events of interest occur,such as the death of the life form of biology.
 % 癌症是当前人类面临的最大的健康危机之一，包括各种类型的癌症，乳腺癌，肠胃癌，肺癌等等。临床领域为了减少癌症的危害，可以通过使用wsi类型的切片，由anatomic pathologists使用haematoxylin and eosin (H&E)方法染色的一种组织切片，进行生存预测。生存预测的使用能使得临床医生能够更好地了解患者病情，给出更好的治疗方案，因此能够提高患者的存活率和存活年限。
 With the rising importance of precision medicine, the ability to predict patient survival based on individualized characteristics becomes paramount.  WSI, as a rich source of information, offers an unprecedented level of granularity by capturing the heterogeneity within tissue samples. By enabling the high-resolution digitization of entire tissue slides, WSI has not only enhanced the efficiency and accuracy of pathological assessments but has also opened new avenues for predictive modeling and survival analysis.
@@ -336,6 +340,14 @@ The study underscored the potential of masked signal modeling for self-supervise
 
 
 \subsection{WSI Features Fusion}
+
+\subsection{GNN}
+The extremely high gigapixel resolution of Whole Slide Images (WSI) requires researchers to divide them into smaller patches for analysis. Most of the previous work has primarily centered around aggregating images based on patches. But based on\cite{levy2020topological}, these methods may also overlook the crucial context between image patches and their neighbors for accurate predictions. Graphs are mathematical models depicting connections between pairs of elements. They are particularly effective for illustrating relationships between individual patches within a Whole Slide Image based on their spatial proximity or correlation. Currently, in risk prediction based on GNN through WSI images, many researchers have also achieved state-of-the-art results.
+%DeepGraphSurv
+DeepGraphSurv\cite{li2018graph}is the first GCN-based survival prediction model that uses WSIs as input. The authors believe that intermediate patch-wise features are a suitable choice for constructing a graph. They integrate global topology features and local patch features of WSIs using spectral convolution operators, which is the core of the entire architecture. In their approach, each patch is treated as a node, and node features are generated using a pre-trained VGG-16 model on ImageNet. The initial WSI graph is built based on patch features, and the VGG-16 feature extractor is not fine-tuned for WSI patches due to the absence of patch labels. Consequently, the initial graph may not accurately represent the topology between WSI patches, which is attributed to the limited training of feature networks.To address this issue, the authors design an independent graph G and  L to describe the topological relationships between specific survival-related WSI patches. This framework can simultaneously learn both local and global representations of Whole Slide Images by integrating local patch features with global topological structures through convolution. Typically, only a few local Regions of Interest (RoIs) in WSIs are relevant to survival analysis. Random sampling may not guarantee that all patches originate from RoIs. The attention mechanism is employed to selectively choose patches by learning their importance. So they introduce a parallel network with attention to adaptively learn attention on node features for selecting more important patches.
+%Pact-CNN
+To enhance the modeling of feature interaction between adjacent image patches during message transmission, Chen \cite{} introduced a context aware, spatially resolved patch based graph convolutional network. This network hierarchically aggregates instance level histological features to capture local and global topological structures in the tumor microenvironment
+Their method uses Graph Convolutional Network (GCN), which iteratively aggregates and combines node features of different hidden layers through message passing. The message passing function of the network is adapted from DeepGCN, including message construction, permutation invariant aggregation, and update functions. Unlike previous graph based methods, they create neighborhoods based on the nearest neighbors in the embedded space, and construct graphs in Euclidean space. This allows them to use spatial convolution to perform local neighborhood aggregation functions similar to convolutional neural networks (CNNs). Compared with other methods of connecting nodes through adjacent image patches, Patch-GCN has improved performance, allowing for learning coarse-grained to fine-grained topological structures in tumor microenvironment.This model is suitable for any weakly supervised learning task in computational pathology that uses slide level or patient level labels, which helps to gain a more comprehensive understanding of representation learning in the tumor microenvironment.
 
 
 \section{Conclusion}
