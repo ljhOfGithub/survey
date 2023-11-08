@@ -313,7 +313,7 @@ One drawback of the platform is that while PORPOISE can elucidate "what," it may
 
 % GC-SPLeM
 In the model introduced in \cite{xie2022survival}, Xie et al. utilized a multimodal attention module to generate well-structured aggregated feature embeddings for patients and their association matrix. 
-Using these embeddings as the foundation, they constructed a graph neural network for predicting survival outcomes.
+Using these embeddings as the foundation, they constructed a graph neural network for predicting survival outcomes.  
 Thanks to the superior graph quality and effective node aggregation process, the GNN model achieves precise predictions in both datasets with complete and incomplete data, offering a viable solution for handling the problem of missing data.
 Each patient is treated as a node in a KNN-affinity graph, enabling the learning and encoding of topological structure and neighborhood information into each patient's feature vector.  
 Unlike previous studies that treated patches of WSIs as nodes in a graph, this work innovatively constructs a graph of patients in datasets, motivated by the idea that patients with similar WSI and gene expression data are likely to have similar survival outcomes.  
@@ -341,7 +341,23 @@ The study underscored the potential of masked signal modeling for self-supervise
 
 \subsection{WSI Features Fusion}
 
+%HVTSurv: Hierarchical Vision Transformer for Patient-Level Survival Prediction from Whole Slide Image 
+In this work, they proposed a hierarchical visual converter (HVTSurv)\cite{shao2023hvtsurv}for predicting patient horizontal survival, which gradually explores the local horizontal space, WSI horizontal context, and patient level hierarchical interaction in the patient level package. For each WSI, the local level interaction layer will first encode the local spatial information. Then, spatial mixing is applied to make the model perform similarity calculations on features in different local windows. Finally, all WSI level features will be connected to perform attention pooling, and we use patient level representations to predict the patient's risk of danger. It is worth noting that in the local window block, this method adds relative position offset to the self attention calculation and uses Manhattan distance to measure distance,it can make the model more sensitive to short rather than long distances\cite{wu2021rethinking}. In the shuffling window block, this method shuffles patient features in different local windows, and then performs window partitioning and self attention calculations.
+
+%Kernel Attention Transformer for Histopathology Whole Slide Image Analysis and Assistant Cancer Diagnosis,2023
+They prposed kernel attention Transformer (KAT)\cite{zheng2023kernel} . Compared to ViT \cite{dosovitskiy2020image}, they use cross-attention between the tokens and a set of kernels to replace the token-wise self-attention to achieve information transmission. The information flowing in KAT is achieved by cross-attention operation between the kernels and patches, which includes the procedures of information gathering (I.G), information broadcast (I.B), and information aggregation (I.A).Through I.G flow, the local information described by the patch representations is reported to their nearby kernels for information gathering. Then, through the I.B flow, the regional information summarized by the kernels is broadcast back to the patches. Based on the bi-directional message passing flow, communication among the patch representations of the WSI can be accomplished.Finally, through I.A flow ,a classification token is used for summing up the information from all the kernels.In this information transformation process, they bind a set of anchor points defined by spatial positions in the patch to the kernel of KAT, creating a soft mask based on layered anchor points, guiding cross attention to perceive multi-scale features of WSI.The experiments have demonstrated that the kernel-based cross-attention contributes to a competitive performance for WSI classification and meanwhile significantly reduces the computational complexity of ViT in both the training and the inference stages.
+
+
+%MHAttnSurv: Multi-Head Attention for Survival Prediction Using Whole-Slide Pathology Images
+Inspired by the potent multi-head attention mechanism initially introduced in the transformer\cite{} model, the researchers innovatively adapted this mechanism to function efficiently in the realm of multiple instance learning. Specifically, the transformer model's core function is to learn context-sensitive representations for every element within an input sequence. However, this necessitates attention between every pair of elements, leading to a quadratic increase in computational cost with longer input sequences. In the case of the prognostic information extraction task, the sole focus is on the global representation of the input sequence. This allowed the elimination of computationally intensive pairwise attentions among the input sequence, retaining only the relevant attentions between global queries and local keys. This modification effectively ensures that computational costs scale linearly with input length. Building upon this innovation, a multi-head attention framework for cancer survival prediction, named MHAttnSurv, was introduced, designed to work with whole slide images (WSIs) without the need for region-of-interest (ROI) annotations. In the MHAttnSurv framework, a backbone ResNet model is employed to extract features from randomly sampled WSI patches. These features are subsequently projected into values and keys, which are segmented into several chunks along with a learnable query vector. Within each chunk, parallel attention processes work concurrently to pinpoint discriminative regions, and the results from each attention map are concatenated to facilitate survival prediction.
+
+
+
+
 \subsection{GNN}
+33
+
+
 The extremely high gigapixel resolution of Whole Slide Images (WSI) requires researchers to divide them into smaller patches for analysis. Most of the previous work has primarily centered around aggregating images based on patches. But based on\cite{levy2020topological}, these methods may also overlook the crucial context between image patches and their neighbors for accurate predictions. Graphs are mathematical models depicting connections between pairs of elements. They are particularly effective for illustrating relationships between individual patches within a Whole Slide Image based on their spatial proximity or correlation. Currently, in risk prediction based on GNN through WSI images, many researchers have also achieved state-of-the-art results.
 
 %DeepGraphSurv
@@ -369,6 +385,13 @@ The TEA graph\cite{lee2022derivation} adopts a graph attention network (GAT) mod
 
 
 %超图
+As classical graph representations can only model pairwise interactions between image patches, new methods are considering broader representations by switching to hypergraph representations.
+
+%Ranksurv
+Previous studies primarily tackled survival prediction by directly applying a regression model to each patient's WSI, often overlooking the relative ranking order among patients. Apart from individual data predictions, it's worth noting that ranking order becomes even more critical when comparing different datasets. The paper proposes a ranking-based survival prediction method called RankSurv\cite{di2020ranking}, which considers the ranking information during the learning process. It uses a hypergraph representation to conduct hazard prediction on each whole-slide image (WSI) and conducts a ranking-based prediction process using pairwise survival data. This study presents two notable innovations. First, they introduce the use of a hypergraph structure to represent hierarchical information. In this approach, they create the hypergraph signal matrix X (SIZE) and the hyperedges incidence matrix H ( SIEZE). Hypergraph spectral convolutional layers are employed for training. After multiple layers of spectral convolution, the N hyperedges can correspond to N patterns of pathogenic factors. To enhance the supervision of ranking prediction, they introduce a BCR loss function and a survival-specific likelihood function for the prediction process. It uses Bayesian optimization criterion to make the concordance index learnable and supervisable . This method has been evaluated on three public carcinoma datasets (LUSC, GBM, and NLST) and has shown significant improvements over state-of-the-art methods in terms of quantitative results.
+
+
+
 
 %Hybrid Graph Convolutional Network With Online Masked Autoencoder for Robust Multimodal Cancer Survival Prediction,2023 transformer
 
@@ -382,7 +405,7 @@ This article proposes a multi hypergraph based learning framework called "HGSurv
 
 
 
-
+%transfomer
 
 %HIGT
 In their proposed HIGT framework\cite{guo2023higt}, a WSI pyramid is constructed as a hierarchical graph. Their Hierarchical Interaction GNN and Hierarchical Interaction ViT block have the capability to capture both local and global features. The Bidirectional Interaction module within the latter allows nodes from different levels to interact. Finally, their Fusion block aggregates both coarse-grained and fine-grained features to generate the slide-level prediction.
@@ -391,8 +414,9 @@ The HIGT framework abstracts each WSI as a hierarchical graph, where feature emb
 The framework includes hierarchical graph convolution blocks to learn short-range relationships among graph nodes, pooling operations to aggregate local context, a Separable Self-Attention-based Hierarchical Interaction Transformer to learn long-range relationships, and a fusion block to aggregate features from different levels of WSI pyramids for slide-level prediction.
 The paper also analyzes the computation cost of the proposed methods and demonstrates that the model maintains promising prediction results while reducing computational cost and model size effectively.
 
-%Ranksurv
-Previous studies primarily tackled survival prediction by directly applying a regression model to each patient's WSI, often overlooking the relative ranking order among patients. Apart from individual data predictions, it's worth noting that ranking order becomes even more critical when comparing different datasets. The paper proposes a ranking-based survival prediction method called RankSurv\cite{di2020ranking}, which considers the ranking information during the learning process. It uses a hypergraph representation to conduct hazard prediction on each whole-slide image (WSI) and conducts a ranking-based prediction process using pairwise survival data. This study presents two notable innovations. First, they introduce the use of a hypergraph structure to represent hierarchical information. In this approach, they create the hypergraph signal matrix X (SIZE) and the hyperedges incidence matrix H ( SIEZE). Hypergraph spectral convolutional layers are employed for training. After multiple layers of spectral convolution, the N hyperedges can correspond to N patterns of pathogenic factors. To enhance the supervision of ranking prediction, they introduce a BCR loss function and a survival-specific likelihood function for the prediction process. It uses Bayesian optimization criterion to make the concordance index learnable and supervisable . This method has been evaluated on three public carcinoma datasets (LUSC, GBM, and NLST) and has shown significant improvements over state-of-the-art methods in terms of quantitative results.
+
+
+
 
 %DeepGCNMIL
 However, directly modeling WSI as a graph is computationally complex, and the lack of priori knowledge leads to the difficulty in learning the best graph representation. In WU’s research, a multi-instance learning (MIL) framework called DeepGCNMIL\cite{wu2022deepgcnmil}was introduced for survival analysis of gigapixel Whole-Slide Images (WSIs). Initially, the ResNet50 pretrained model from ImageNet was employed to extract the morphological features of patches, which were subsequently clustered using the K-Means method. Within the context of a graph structure, a Graph Neural Network (GNN) was applied, treating each feature patch in every cluster as a node. The GNN subnetworks were embedded into a deep learning architecture, consisting of three layers of Graph Convolutional Neural Networks paired with ReLU activation functions, and a final addition of global pooling layers, such as average pooling. Relationships between feature patches were established through edge connections between nodes, and feature information was forwarded to generate the entire graph's feature vector. This approach effectively modeled relationships between patches, extracting meaningful representations of phenotypes for survival prediction. Finally, multiple heads and aggregated phenotype features were introduced to the WSI representation, facilitating prognostic risk assessment. It is more suitable for situations where manual ROI labeling is lacking in large-scale cancer datasets, and can simultaneously process prognosis predictions for cancer patients with different numbers and sizes of entire slide images. Moreover, this model can be easily transplanted to other cancer datasets and applied to other tumor types.
