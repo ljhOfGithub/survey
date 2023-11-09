@@ -186,15 +186,31 @@ The morphological characteristics of nuclei and cells exhibit variations depende
 Likewise, the spatial properties and distributions of tumor regions serve as important indicators of cancer progression and treatment response. 
 In addition to augmenting Whole Slide Images (WSIs) with the TIL, tumor, and nuclear segmentation channels, they trained deep learning models with different resolutions of input data to capture both local and global perspectives on the distribution of TILs, tumor regions, and nuclei in tissue. 
 
-
 % Cancer Survival Prediction即convnet
 % Feature Extraction Via
 Without using convnet-based methods, the model in \cite{fan2022cancer} also considers the self-supervised learning (SSL) methods mainly for making full use of plentiful color information designed for WSI patches or pixels without hand-actuated labels, totally colorization and cross-channel as the pretext tasks.
 The colorization model is trained to predict corresponding color channels based on the lightness channel and the letter, on the other hand, is trained to get lightness channel using given color channels data, after which the visualized results indicating highlighted overall structure of nuclei and tissue.
 
 % DSCA
+The model DSCA introduced in \cite{liu2023dsca}, inspired by modern feature pyramid networks, comprises two essential elements: the dual-stream and cross-attention.
+The dual-stream module independently processes low- and high-resolution patches, enabling efficient learning of hierarchical WSI representations. 
+In the high-resolution stream, a square pooling layer is introduced to drastically reduce the number of high-resolution patches, thereby minimizing computational costs during network training. 
+This square pooling operation is implemented using a cross-attention mechanism, where high-resolution patches are pooled under the guidance of a global low-resolution patch. 
+This strategy effectively addresses the potential semantic gap between features at different resolutions, promoting seamless fusion of dual-stream features.
+The proposed DSCA offers several key contributions. 
+Firstly, it introduces a distinctive dual-stream network with cross-attention that fully harnesses image pyramids to enhance the visual representation of WSIs. 
+Secondly, the square pooling layer significantly reduces computational costs, serving as a critical component for computational efficiency. 
+Lastly, the cross-attention-based pooling method effectively handles the semantic gap between high- and low-resolution features, facilitating improved fusion of dual-stream features and enhancing hierarchical representation for superior prediction performance.
 
 % Automated Cellular-Level Dual Global Fusion of Whole-Slide Imaging for Lung Adenocarcinoma Prognosis
+In the paper\cite{diao2023automated}, Diao et al. introduce a fully automated dual-branch global fusion pipeline at the cellular level to forecast survival based on Whole-Slide Images (WSI). 
+In contrast to prognosis methods that focus on nuclei, their pipeline effectively leverages global contextual information, encompassing various cell types and their locations. 
+Initially, they generated an embedded WSI map by segmenting and classifying all cell nuclei in the WSI, thereby preserving their spatial information. 
+Subsequently, they calculated features separately for the overall WSI and the relationships between different regions within the WSI based on the embedded maps. 
+The former features emphasize global cell type and distribution, while the latter features focus on contextual relationships among different or within the same cell types. 
+Finally, these two types of global features are fused to evaluate their prognostic implications. 
+The proposed method demonstrated higher robustness compared to individual global features. 
+Moreover, this comprehensive framework holds potential for predicting survival and treatment responses in other cancer malignancies.
 
 % HVTSurv
 
