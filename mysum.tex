@@ -98,6 +98,7 @@ There exist many methods developed for predicting survival through the informati
 Rather than utilizing the overall patches from the gigapixel pathology images, the traditional models usually pre-select a subset of critical patches from the region of interest (ROI) as the input data.
 Apart from the features extracted from ROIs with the deep neural networks(DNNs), some morphological features of the image patches can be extracted and accessed by the image analysis software named CellProfiler\cite{lamprecht2007cellprofiler}, commonly used for cell phenotypes measurements at that time.
 It's the features including cell shape, size, the distribution of pixel intensity in the cells and nuclei and texture of cells and nuclei that the quantitative analysis tool can extract.
+
 % DeepConvSurv
 % To evaluate whether
 Taking whole slide images with various size as inputs, in order to do end-to-end survival prediction, DeepConvSurv proposed by \cite{zhu2016deep} randomly chooses the patches among the ROIs annotated by the professional pathologists.
@@ -127,31 +128,79 @@ For the purpose of training the prognostic model indicating that the risk group 
 % capsurv
 The model in \cite{mackenzie2022neural} has a automated pipeline excluding the background white space among the identified tissue, then overlooking the sparse cellularity regions and randomly sampling the potential patches from the foreground area.
 
-In a short, as the methods previously implemented, ROIs routinely ask artificial marking and rigorous reviews to produce passable survival prediction.
+In a short, as the methods previously implemented, ROIs routinely ask artificial marking and rigorous reviews to produce passable survival prediction and focusing on ROI ignores the impact of other regions.
 Additionally speaking, the ROI-based methods discussed above require pathologists to hand-annotate ROIs, a tedious task.
+
 \subsection{Feature Extraction}
 Previous methods often extract image features from patches of whole slide images(WSIs) using the pre-trained model based on the numerous natural images datasets ImageNet theoretically being able to withdraw the low-dimensional features such as edge and texture.However,they have ignored the enormous difference between the WSIs and the natural images.
 Recently, some new methods have been proposed to suitably get features from the WSIs to overcome the significant shortcomings.
 Without the knowledge of each patch-level labels, the self-supervised learning methods can autonomously impart the outstanding feature extraction ability to the model.
 
-% Self supervised contrastive
-% abstract
+% Self supervised contrastive 新方法
 The method named SimCLR in \cite{ciga2022self}, one of the self-supervised learning(SSL) methods, using the contrastive learning has excellent feature extraction capacity even comparable to the supervised learning model thanks to the collected 57 digital histopathology datasets with none labels.
-% Integration of Patch；Train Feature Extraction Model；Recent studies have shown；
+% Fine-Tuning and training 新方法
+% higt，hgcn直接用；hyper adac，ds-mil用simclr作为策略
+Aside from SimCLR as a strategy used in \cite{benkirane2022hyper} and \cite{li2021dual}, KimiaNet from \cite{riasatian2021fine} has also been one of the most welcome pre-trained models used for survival analysis exploiting a variable, multi-organ open image repository lick TCGA, which has been employed directly to extract the feature embeddings of image patches in \cite{guo2023higt} \cite{li2021dual}.
+
+% EOCSA
+In the research of \cite{liu2022eocsa}, Liu et at. introduced the EOCSA framework, which focuses on the survival analysis of EOC by utilizing deep learning techniques to process WSIs. 
+They developed a prediction model called DCAS, which demonstrated excellent feature extraction capabilities and strong predictive performance. 
+The DCAS model employs a cluster-selection strategy to efficiently eliminate redundant information. 
+Unlike other deep survival prediction models, they integrated spatial and channel attention modules in the DCAS model to capture tumor-related information. 
+Moreover, their weight calculation method enabled the generation of more distinctive patient-level features. 
+However, there are still some limitations in the EOCSA framework. 
+Firstly, the cluster selection process, while effective in choosing discriminative patches, can be computationally expensive. 
+The efficiency of the EOCSA framework may decrease when handling an extremely large number of WSIs. Secondly, not all selected patches are guaranteed to be highly discriminative, which could potentially impact the accuracy of survival analysis if non-discriminative patches are included. 
+
+% SCHMOWDER
+In the study of \cite{saillard2020predicting}, two deep-learning algorithms were developed using whole-slide digitized histological slides (whole-slide imaging; WSI) to predict the survival of patients with hepatocellular carcinoma (HCC) who underwent surgical resection. 
+The study utilized both a discovery set (Henri Mondor Hospital) for algorithm development and an independent validation set (The Cancer Genome Atlas [TCGA] for validation. 
+Whole-slide images were divided into smaller squares ("tiles"), and features were extracted using a pretrained convolutional neural network. 
+The first algorithm, "SCHMOWDER," incorporates an attention mechanism for tumor areas annotated by a pathologist, while the second, "CHOWDER," does not require human expertise.
+In the discovery set, both SCHMOWDER and CHOWDER achieved high c-indices for survival prediction surpassing a composite score based on baseline variables. 
+These results were further confirmed in the TCGA dataset, where both models outperformed the baseline variables. 
+Pathological analysis revealed that specific tumor characteristics, such as vascular spaces, macrotrabecular architectural patterns, and the absence of immune infiltration, were strongly associated with poor survival. 
+Overall, this study demonstrated the potential of artificial intelligence in refining HCC prognosis prediction and emphasized the significance of collaboration between pathologists and machine learning for deep-learning algorithm construction that benefited from expert knowledge and contributed to a better biological understanding of their predictions.
+
+
+% SeTranSurv；Train Feature Extraction Model；Recent studies have shown；
 SeTranSurv, the proposed model in \cite{huang2021integration} applies SimCLR to train the initial feature extraction model ResNet18\cite{he2016deep} to get the specialized model for downstream task survival prediction.
 During the training the model applies the contrastive loss\cite{he2020momentum} to enhance feature extraction ability.
 Firstly augmentation module in SeTranSurv using two methods to transform a random image example to a position pair, then the model uses the fine-tuned feature extractor raised above to get the features. 
 Considering other images as negative examples ensures that the views of different slide images are far apart in the high-dimensional space and the views of the same image are closer in the process of training.
 Additionally, position encodings capturing spatial information and self-attention modules learning correlation between patches are put into the training of the model above to obtain slide-level features and therefore the patient-level features.
-% Fine-Tuning and training
-% higt，hgcn直接用；hyper adac，ds-mil用simclr作为策略
-Aside from SimCLR as a strategy used in \cite{benkirane2022hyper} and \cite{li2021dual}, KimiaNet from \cite{riasatian2021fine} has also been one of the most welcome pre-trained models used for survival analysis exploiting a variable, multi-organ open image repository lick TCGA, which has been employed directly to extract the feature embeddings of image patches in \cite{guo2023higt} \cite{li2021dual}.
+
+% ESAT
+
+% deep_survival_analysis
+
+
 % Cancer Survival Prediction即convnet
 % Feature Extraction Via
 Without using convnet-based methods, the model in \cite{fan2022cancer} also considers the self-supervised learning (SSL) methods mainly for making full use of plentiful color information designed for WSI patches or pixels without hand-actuated labels, totally colorization and cross-channel as the pretext tasks.
 The colorization model is trained to predict corresponding color channels based on the lightness channel and the letter, on the other hand, is trained to get lightness channel using given color channels data, after which the visualized results indicating highlighted overall structure of nuclei and tissue.
 
-Unlike prior studies that pick and choose specific regions of interest (ROIs) from whole-slide images (WSIs) for survival analysis, new method can utilize the complete tissue and tumor micro-environment without the need for detailed annotations within WSIs. Additionally, it can seamlessly incorporate multiple diagnostic slides of various dimensions from a single patient sample for both training and inference in a unified framework.
+% DSCA
+
+% Automated Cellular-Level Dual Global Fusion of Whole-Slide Imaging for Lung Adenocarcinoma Prognosis
+
+% HVTSurv
+
+% KAT
+
+% MHAttnSurv
+
+% Surformer
+
+% WSI-HSfeatures
+
+% graphLsurv
+
+% advmil
+
+
+Unlike prior studies that pick and choose specific regions of interest (ROIs) from whole-slide images (WSIs) for survival analysis, new method can utilize the complete tissue and tumor micro-environment without the need for detailed annotations within WSIs. 
+Additionally, it can seamlessly incorporate multiple diagnostic slides of various dimensions from a single patient sample for both training and inference in a unified framework.
 
 \subsection{Multimodal}
 One limitation for some existing survival models is that they initially focus on one modality and cannot sufficiently handle multi-modalities data. 
@@ -345,9 +394,7 @@ The study also validated the model's performance on external datasets.
 The proposed fully automated prognostic tool based on histopathological images, clinical data, and gene expression data has the potential to improve pathologists' efficiency and accuracy and aid clinicians in selecting appropriate therapies. 
 
 
-\subsection{WSI Features Fusion}
-
-\subsection{GNN}
+\subsection{Graph Neural Network}
 The extremely high gigapixel resolution of Whole Slide Images (WSI) requires researchers to divide them into smaller patches for analysis. Most of the previous work has primarily centered around aggregating images based on patches. But based on\cite{levy2020topological}, these methods may also overlook the crucial context between image patches and their neighbors for accurate predictions. Graphs are mathematical models depicting connections between pairs of elements. They are particularly effective for illustrating relationships between individual patches within a Whole Slide Image based on their spatial proximity or correlation. Currently, in risk prediction based on GNN through WSI images, many researchers have also achieved state-of-the-art results.
 
 %DeepGraphSurv
