@@ -162,7 +162,6 @@ These results were further confirmed in the TCGA dataset, where both models outp
 Pathological analysis revealed that specific tumor characteristics, such as vascular spaces, macrotrabecular architectural patterns, and the absence of immune infiltration, were strongly associated with poor survival. 
 Overall, this study demonstrated the potential of artificial intelligence in refining HCC prognosis prediction and emphasized the significance of collaboration between pathologists and machine learning for deep-learning algorithm construction that benefited from expert knowledge and contributed to a better biological understanding of their predictions.
 
-
 % SeTranSurv；Train Feature Extraction Model；Recent studies have shown；
 SeTranSurv, the proposed model in \cite{huang2021integration} applies SimCLR to train the initial feature extraction model ResNet18\cite{he2016deep} to get the specialized model for downstream task survival prediction.
 During the training the model applies the contrastive loss\cite{he2020momentum} to enhance feature extraction ability.
@@ -171,8 +170,21 @@ Considering other images as negative examples ensures that the views of differen
 Additionally, position encodings capturing spatial information and self-attention modules learning correlation between patches are put into the training of the model above to obtain slide-level features and therefore the patient-level features.
 
 % ESAT
+In the model of \cite{shen2022explainable}, particularly, a single filter within the convolutional layer is utilized for aggregating one dimension of the multi-dimensional characteristics from neighboring patches. 
+The combination of these d filters results in the subsequent layer's feature representations.
+Subsequently, following the ViT's procedures, Shen et al. flattened the patch embedding and introduced position embedding. 
+In addition, for the purpose of further simplification, they opted for Nystrom-based linear transformers\cite{verma2021beyond} to replace the conventional self-attention transformers. 
+The Nystrom approach is applied to approximate the softmax matrix in self-attention by randomly selecting a subset of columns and rows. 
+As a result, the time complexity within this module can be reduced.
+Moreover, in order to offer understandable rationales for prediction outcomes, they introduced a post-hoc explainability technique for survival analysis.
 
 % deep_survival_analysis
+The approach in \cite{liu2022deep} fuses Red, Green, Blue (RGB) color image data with Nucleus, Tumor, Lymphocyte (NTL) data, which includes nuclear segmentation maps, tumor region segmentation maps, and tumor infiltrating lymphocyte (TIL) maps generated through deep learning techniques. 
+Essentially, Liu et al. treated the input data as composite images with six channels, incorporating the RGB channels and the NTL channels. 
+They adapted a recent state-of-the-art deep learning survival analysis method developed by \cite{wulczyn2020deep} to function with the RGB and NTL channels as well as multi-resolution data. 
+The morphological characteristics of nuclei and cells exhibit variations dependent on cancer subtype and stage, making them useful for predictive models. 
+Likewise, the spatial properties and distributions of tumor regions serve as important indicators of cancer progression and treatment response. 
+In addition to augmenting Whole Slide Images (WSIs) with the TIL, tumor, and nuclear segmentation channels, they trained deep learning models with different resolutions of input data to capture both local and global perspectives on the distribution of TILs, tumor regions, and nuclei in tissue. 
 
 
 % Cancer Survival Prediction即convnet
