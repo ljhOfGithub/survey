@@ -201,6 +201,14 @@ Pei Liu, Bo~Fu, Feng Ye, Rui Yang, and Luping Ji.
   pyramids for cancer prognosis.
 \newblock {\em Expert Systems with Applications}, 227:120280, 2023.
 
+\bibitem{wang2021pyramid}
+Wenhai Wang, Enze Xie, Xiang Li, Deng-Ping Fan, Kaitao Song, Ding Liang, Tong
+  Lu, Ping Luo, and Ling Shao.
+\newblock Pyramid vision transformer: A versatile backbone for dense prediction
+  without convolutions.
+\newblock In {\em Proceedings of the IEEE/CVF international conference on
+  computer vision}, pages 568--578, 2021.
+
 \bibitem{diao2023automated}
 Songhui Diao, Pingjun Chen, Eman Showkatian, Rukhmini Bandyopadhyay, Frank~R
   Rojas, Bo~Zhu, Lingzhi Hong, Muhammad Aminu, Maliazurina~B Saad, Morteza

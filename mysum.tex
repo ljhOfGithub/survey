@@ -29,20 +29,17 @@ Research Institute for Metals, Tsukuba, Japan (e-mail: author@nrim.go.jp).}}
 \maketitle
 
 \begin{abstract}
-
+With the increasing application of gigapixel Whole-Slide Images (WSIs) in digital pathology, there has been growing interest in utilizing WSI for survival prediction. This review summarizes and analyzes the recent research on survival prediction using WSI. Firstly, the development and applications of WSI technology, as well as the significance of survival prediction in cancer management, are introduced. Then, different methods for survival prediction are reviewed, including traditional tissue feature analysis, cell-level feature analysis, and deep learning approaches. In tissue feature analysis, researchers predict survival by extracting morphological, textural, and regional features from WSIs. Cell-level feature analysis focuses on the morphological and distributional characteristics of individual cells and computes relationships between cells for more accurate predictions. Deep learning methods, utilizing techniques such as convolutional neural networks and recurrent neural networks, are able to learn complex feature representations from WSIs and achieve high-precision survival prediction. Additionally, the challenges and future directions of WSI-based survival prediction methods are discussed. Overall, utilizing WSI for survival prediction is a promising field that can provide important complementary information for clinical decision-making and personalized treatment.
 \end{abstract}
 
 \begin{IEEEkeywords}
-
-
-Enter about five key words or phrases in alphabetical order, separated by commas.
+% Enter about five key words or phrases in alphabetical order, separated by commas.
 Cancer survival analysis,Cancer survival prediction,deep learning,whole slide image
 \end{IEEEkeywords}
 
 \section{Introduction}
 \label{sec:introduction}
 % motivation 添加 
-
 
 Survival prediction is a direction of statistics for analyzing the duration time that is expected until the events of interest occur,such as the death of the life form of biology.
 % 癌症是当前人类面临的最大的健康危机之一，包括各种类型的癌症，乳腺癌，肠胃癌，肺癌等等。临床领域为了减少癌症的危害，可以通过使用wsi类型的切片，由anatomic pathologists使用haematoxylin and eosin (H&E)方法染色的一种组织切片，进行生存预测。生存预测的使用能使得临床医生能够更好地了解患者病情，给出更好的治疗方案，因此能够提高患者的存活率和存活年限。
@@ -56,7 +53,7 @@ In this review, we will examine the key methodologies, challenges, and recent ad
 
 As the fields of digital pathology and computational biology continue to evolve, the integration of WSI into survival analysis represents a promising frontier for improving patient outcomes and advancing our understanding of disease dynamics. This review will serve as a guide for researchers and practitioners interested in leveraging WSI for survival prediction in diverse clinical and research settings.
 
-\section{Background}
+% \section{Background}
 % 癌症风险预测是指对潜在的病人的全切片WSI进行分析，也可以结合病人的其他临床数据，例如年龄、性别等，得出病人直至死亡的存活时间。
 % 在生存预测问题中，所使用的数据集中，所使用的censorship和survival time基本都是右删失。
 In recent years, several computer algorithms for hematoxylin and eosin (H\&E) stained pathology image analysis have been developed to aid pathologists in objective clinical diagnosis and prognosis.
@@ -91,6 +88,11 @@ While the potential is immense, it is not without challenges. The management and
 This review embarks on a journey to explore the multifaceted landscape of survival prediction using WSI. It endeavors to survey the methodologies, showcase the milestones achieved, and address the formidable challenges that lie ahead. In doing so, it aspires to serve as a guiding compass for researchers, pathologists, clinicians, and healthcare stakeholders invested in leveraging the symbiotic relationship between digital pathology and survival prediction.
 
 As we advance in this ever-evolving field, the fusion of digital pathology with survival prediction promises to unravel the intricacies of disease dynamics, enhance patient care, and pave the way for a new era of data-driven medicine.
+
+\section{FORMULATION OF SURVIVAL PREDICTION}
+\subsection{Region of Interest}
+
+\subsection{Region of Interest}
 
 \section{Methodology}
 \subsection{Region of Interest}
@@ -192,7 +194,7 @@ Without using convnet-based methods, the model in \cite{fan2022cancer} also cons
 The colorization model is trained to predict corresponding color channels based on the lightness channel and the letter, on the other hand, is trained to get lightness channel using given color channels data, after which the visualized results indicating highlighted overall structure of nuclei and tissue.
 
 % DSCA
-The model DSCA introduced in \cite{liu2023dsca}, inspired by modern feature pyramid networks, comprises two essential elements: the dual-stream and cross-attention.
+The model DSCA introduced in \cite{liu2023dsca}, inspired by modern feature pyramid networks\cite{wang2021pyramid}, comprises two essential elements: the dual-stream and cross-attention.
 The dual-stream module independently processes low- and high-resolution patches, enabling efficient learning of hierarchical WSI representations. 
 In the high-resolution stream, a square pooling layer is introduced to drastically reduce the number of high-resolution patches, thereby minimizing computational costs during network training. 
 This square pooling operation is implemented using a cross-attention mechanism, where high-resolution patches are pooled under the guidance of a global low-resolution patch. 
@@ -507,11 +509,18 @@ The author proposes a new graph neural network (GNN) based model, called SlideGr
 
 
 
-\section{Conclusion}
+\section{CONCLUSION AND DISCUSSIONS}
 A conclusion section is not required. Although a conclusion may review the 
 main points of the paper, do not replicate the abstract as the conclusion.
 A conclusion might elaborate on the importance of the work or suggest 
 applications and extensions.
+\subsection{Challenges}
+
+\subsection{Future Prospects}
+
+
+
+
 
 \appendices
 
