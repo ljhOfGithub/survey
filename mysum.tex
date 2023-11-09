@@ -179,6 +179,12 @@ As a result, the time complexity within this module can be reduced.
 Moreover, in order to offer understandable rationales for prediction outcomes, they introduced a post-hoc explainability technique for survival analysis.
 
 % deep_survival_analysis
+The approach in \cite{liu2022deep} fuses Red, Green, Blue (RGB) color image data with Nucleus, Tumor, Lymphocyte (NTL) data, which includes nuclear segmentation maps, tumor region segmentation maps, and tumor infiltrating lymphocyte (TIL) maps generated through deep learning techniques. 
+Essentially, Liu et al. treated the input data as composite images with six channels, incorporating the RGB channels and the NTL channels. 
+They adapted a recent state-of-the-art deep learning survival analysis method developed by \cite{wulczyn2020deep} to function with the RGB and NTL channels as well as multi-resolution data. 
+The morphological characteristics of nuclei and cells exhibit variations dependent on cancer subtype and stage, making them useful for predictive models. 
+Likewise, the spatial properties and distributions of tumor regions serve as important indicators of cancer progression and treatment response. 
+In addition to augmenting Whole Slide Images (WSIs) with the TIL, tumor, and nuclear segmentation channels, they trained deep learning models with different resolutions of input data to capture both local and global perspectives on the distribution of TILs, tumor regions, and nuclei in tissue. 
 
 
 % Cancer Survival Prediction即convnet
