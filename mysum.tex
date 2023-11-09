@@ -143,10 +143,25 @@ The method named SimCLR in \cite{ciga2022self}, one of the self-supervised learn
 Aside from SimCLR as a strategy used in \cite{benkirane2022hyper} and \cite{li2021dual}, KimiaNet from \cite{riasatian2021fine} has also been one of the most welcome pre-trained models used for survival analysis exploiting a variable, multi-organ open image repository lick TCGA, which has been employed directly to extract the feature embeddings of image patches in \cite{guo2023higt} \cite{li2021dual}.
 
 % EOCSA
-
-% MCTP
+In the research of \cite{liu2022eocsa}, Liu et at. introduced the EOCSA framework, which focuses on the survival analysis of EOC by utilizing deep learning techniques to process WSIs. 
+They developed a prediction model called DCAS, which demonstrated excellent feature extraction capabilities and strong predictive performance. 
+The DCAS model employs a cluster-selection strategy to efficiently eliminate redundant information. 
+Unlike other deep survival prediction models, they integrated spatial and channel attention modules in the DCAS model to capture tumor-related information. 
+Moreover, their weight calculation method enabled the generation of more distinctive patient-level features. 
+However, there are still some limitations in the EOCSA framework. 
+Firstly, the cluster selection process, while effective in choosing discriminative patches, can be computationally expensive. 
+The efficiency of the EOCSA framework may decrease when handling an extremely large number of WSIs. Secondly, not all selected patches are guaranteed to be highly discriminative, which could potentially impact the accuracy of survival analysis if non-discriminative patches are included. 
 
 % SCHMOWDER
+In the study of \cite{saillard2020predicting}, two deep-learning algorithms were developed using whole-slide digitized histological slides (whole-slide imaging; WSI) to predict the survival of patients with hepatocellular carcinoma (HCC) who underwent surgical resection. 
+The study utilized both a discovery set (Henri Mondor Hospital) for algorithm development and an independent validation set (The Cancer Genome Atlas [TCGA] for validation. 
+Whole-slide images were divided into smaller squares ("tiles"), and features were extracted using a pretrained convolutional neural network. 
+The first algorithm, "SCHMOWDER," incorporates an attention mechanism for tumor areas annotated by a pathologist, while the second, "CHOWDER," does not require human expertise.
+In the discovery set, both SCHMOWDER and CHOWDER achieved high c-indices for survival prediction surpassing a composite score based on baseline variables. 
+These results were further confirmed in the TCGA dataset, where both models outperformed the baseline variables. 
+Pathological analysis revealed that specific tumor characteristics, such as vascular spaces, macrotrabecular architectural patterns, and the absence of immune infiltration, were strongly associated with poor survival. 
+Overall, this study demonstrated the potential of artificial intelligence in refining HCC prognosis prediction and emphasized the significance of collaboration between pathologists and machine learning for deep-learning algorithm construction that benefited from expert knowledge and contributed to a better biological understanding of their predictions.
+
 
 % SeTranSurv；Train Feature Extraction Model；Recent studies have shown；
 SeTranSurv, the proposed model in \cite{huang2021integration} applies SimCLR to train the initial feature extraction model ResNet18\cite{he2016deep} to get the specialized model for downstream task survival prediction.
