@@ -8,45 +8,45 @@ Database file #1: ref.bib
 Warning--can't use both volume and number fields in shen2022explainable
 Warning--empty journal in ishwaran2008random
 Warning--can't use both volume and number fields in hou2022h
-You've used 79 entries,
+You've used 80 entries,
             1791 wiz_defined-function locations,
-            885 strings with 22349 characters,
-and the built_in function-call counts, 25379 in all, are:
-= -- 2212
-> -- 1419
-< -- 35
-+ -- 500
-- -- 421
-* -- 1862
-:= -- 3856
-add.period$ -- 256
-call.type$ -- 79
-change.case$ -- 78
+            889 strings with 22596 characters,
+and the built_in function-call counts, 25828 in all, are:
+= -- 2248
+> -- 1448
+< -- 36
++ -- 510
+- -- 430
+* -- 1894
+:= -- 3920
+add.period$ -- 259
+call.type$ -- 80
+change.case$ -- 79
 chr.to.int$ -- 0
-cite$ -- 82
-duplicate$ -- 1095
-empty$ -- 2236
-format.name$ -- 421
-if$ -- 5745
+cite$ -- 83
+duplicate$ -- 1116
+empty$ -- 2274
+format.name$ -- 430
+if$ -- 5849
 int.to.chr$ -- 0
-int.to.str$ -- 79
-missing$ -- 79
-newline$ -- 397
-num.names$ -- 79
-pop$ -- 261
+int.to.str$ -- 80
+missing$ -- 80
+newline$ -- 402
+num.names$ -- 80
+pop$ -- 267
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 647
+skip$ -- 663
 stack$ -- 0
-substring$ -- 1891
-swap$ -- 418
-text.length$ -- 35
+substring$ -- 1923
+swap$ -- 429
+text.length$ -- 36
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 3
-while$ -- 230
-width$ -- 81
-write$ -- 881
+while$ -- 234
+width$ -- 82
+write$ -- 892
 (There were 3 warnings)
