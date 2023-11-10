@@ -217,6 +217,41 @@ Songhui Diao, Pingjun Chen, Eman Showkatian, Rukhmini Bandyopadhyay, Frank~R
   for lung adenocarcinoma prognosis.
 \newblock {\em Cancers}, 15(19):4824, 2023.
 
+\bibitem{shao2023hvtsurv}
+Zhuchen Shao, Yang Chen, Hao Bian, Jian Zhang, Guojun Liu, and Yongbing Zhang.
+\newblock Hvtsurv: hierarchical vision transformer for patient-level survival
+  prediction from whole slide image.
+\newblock In {\em Proceedings of the AAAI Conference on Artificial
+  Intelligence}, volume~37, pages 2209--2217, 2023.
+
+\bibitem{wu2021rethinking}
+Kan Wu, Houwen Peng, Minghao Chen, Jianlong Fu, and Hongyang Chao.
+\newblock Rethinking and improving relative position encoding for vision
+  transformer.
+\newblock In {\em Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, pages 10033--10041, 2021.
+
+\bibitem{zheng2023kernel}
+Yushan Zheng, Jun Li, Jun Shi, Fengying Xie, Jianguo Huai, Ming Cao, and Zhiguo
+  Jiang.
+\newblock Kernel attention transformer for histopathology whole slide image
+  analysis and assistant cancer diagnosis.
+\newblock {\em IEEE Transactions on Medical Imaging}, 2023.
+
+\bibitem{dosovitskiy2020image}
+Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn,
+  Xiaohua Zhai, Thomas Unterthiner, Mostafa Dehghani, Matthias Minderer, Georg
+  Heigold, Sylvain Gelly, et~al.
+\newblock An image is worth 16x16 words: Transformers for image recognition at
+  scale.
+\newblock {\em arXiv preprint arXiv:2010.11929}, 2020.
+
+\bibitem{jiang2023mhattnsurv}
+Shuai Jiang, Arief~A Suriawinata, and Saeed Hassanpour.
+\newblock Mhattnsurv: Multi-head attention for survival prediction using
+  whole-slide pathology images.
+\newblock {\em Computers in Biology and Medicine}, 158:106883, 2023.
+
 \bibitem{zhu2016lung}
 Xinliang Zhu, Jiawen Yao, Xin Luo, Guanghua Xiao, Yang Xie, Adi Gazdar, and
   Junzhou Huang.
