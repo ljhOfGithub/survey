@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10.12) (preloaded format=latex 2023.10.31)  9 NOV 2023 15:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10.12) (preloaded format=latex 2023.10.31)  9 NOV 2023 15:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -376,12 +376,12 @@ Overfull \vbox (5.0pt too high) has occurred while \output is active []
 
  [11]
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 5
-31.
+34.
 
 (C:\Users\ljh\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-Underfull \hbox (badness 8132) in paragraph at lines 537--537
+Underfull \hbox (badness 8132) in paragraph at lines 540--540
 [][][]\OT1/ptm/m/n/8 Supplementary ma-te-ri-als are avail-able in the sup-port-
 ing doc-u-
  []
@@ -395,12 +395,21 @@ Underfull \hbox (badness 1502) in paragraph at lines 185--191
  []
 
 
+Underfull \hbox (badness 2922) in paragraph at lines 242--248
+\OT1/ptm/m/n/8 senborn, Xi-ao-hua Zhai, Thomas Un-terthiner, Mostafa De-hghani,
+
+ []
+
+
 Overfull \vbox (5.0pt too high) has occurred while \output is active []
 
- [13])
+ [13]
 Overfull \vbox (5.0pt too high) has occurred while \output is active []
 
- [14
+ [14])
+Overfull \vbox (5.0pt too high) has occurred while \output is active []
+
+ [15
 
 ]
 (mysum.aux)
@@ -410,12 +419,12 @@ L3 programming layer <2023-10-10>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 3547 strings out of 474824
- 54828 string characters out of 5751925
+ 3552 strings out of 474824
+ 54923 string characters out of 5751925
  1952040 words of memory out of 5000000
- 25462 multiletter control sequences out of 15000+600000
+ 25467 multiletter control sequences out of 15000+600000
  598156 words of font info for 113 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,19n,70p,1811b,445s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,19n,67p,1811b,445s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on mysum.dvi (14 pages, 133820 bytes).
+Output written on mysum.dvi (15 pages, 142360 bytes).
