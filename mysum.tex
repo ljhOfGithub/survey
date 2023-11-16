@@ -5,6 +5,7 @@
 \usepackage{algorithmic}
 \usepackage{graphicx}
 \usepackage{textcomp}
+\usepackage{hyperref}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \markboth{\journalname, VOL. XX, NO. XX, XXXX 2020}
@@ -60,7 +61,7 @@ As the fields of digital pathology and computational biology continue to evolve,
 In recent years, several computer algorithms for hematoxylin and eosin (H\&E) stained pathology image analysis have been developed to aid pathologists in objective clinical diagnosis and prognosis.
 The Cancer Genome Atlas (TCGA) are the most common datasets when discussing the topics of survival prediction.
 
-the observation of one patient is either a survival time $(O_i)$ or a censored time $(C_i).$ If and only if $t_i=\min(O_i,C_i)$ can be observed during the study, the dataset is right- censored [17]. An instance in the survival data is usually represented as $(x_i,t_i,\delta_i)$ where $x_i$ is the feature vector, $t_i$ is the observed time, $\delta_i$ is the indicator which is 1 for a un- censored instance (death occurs during the study) and 0 for a censored instance.
+the observation of one patient is either a survival time $(O_i)$ or a censored time $(C_i).$ If and only if $t_i=\min(O_i,C_i)$ can be observed during the study, the dataset is right-censored [17]. An instance in the survival data is usually represented as $(x_i,t_i,\delta_i)$ where $x_i$ is the feature vector, $t_i$ is the observed time, $\delta_i$ is the indicator which is 1 for a un-censored instance (death occurs during the study) and 0 for a censored instance.
 
 The survival function $S(t|x)=Pr(O\geq t|x)$ is used to identify the probability of being still alive at time $t$ where $x=(x_1,...x_p)^T$ is the covariates of dimension $p$, The haz- ard function is defined as
 
@@ -91,9 +92,30 @@ This review embarks on a journey to explore the multifaceted landscape of surviv
 As we advance in this ever-evolving field, the fusion of digital pathology with survival prediction promises to unravel the intricacies of disease dynamics, enhance patient care, and pave the way for a new era of data-driven medicine.
 
 \section{FORMULATION OF SURVIVAL PREDICTION}
-\subsection{Region of Interest}
+\subsection{Survival Analysis}
+In traditional survival modeling, it is assumed that the time durations follow an unknown distribution. Among the popular modeling methods, the Cox proportional hazard model stands out, as it focuses on modeling hazards rather than the survival function:
+\begin{equation}\label{traditional}
+h(t|x)=h_0(t)exp(\beta^Tx)
+\end{equation}
 
-\subsection{Region of Interest}
+The expression involves the time variable $t$, covariates $x$ of dimension $p$ where $x=(x_1,...,x_p)^T$, a vector of regression parameters $\beta=(\beta_1,...,\beta_p)^T$, and the baseline hazard $h_0(t)$. The risk function, denoted as $f(x)=\beta^Tx$, is also referred to as the regression function. The estimation of regression parameters involves minimizing the negative log partial likelihood:
+\begin{equation}
+    l(\beta) = -\sum_{i=1}^n \delta_i \left( \beta^Tx_i - \log\sum_{j\in R(t_i)} \exp(\beta^Tx_j) \right)
+\end{equation}
+
+$n$ represents the patient count, and $t_i$ corresponds to the survival time (censored or observed) for patient $i$, and $\delta_i$ is an indicator variable indicating whether the survival time is censored $(\delta_i=0)$ or observed $(\delta_i=1)$. The term $R(t_i)$ refers to the risk set at time $t_i$, defined as the group of individuals still under study before time $t_i$.
+
+Compared with traditional survival analysis, Katzman et al.\cite{jing2019deep} introduced DeepSurv, a deep fully connected network designed to capture nonlinear relationships between covariates and the risk function. This model replaces the exponential component $\beta^Tx$ in the traditional Cox model's risk function $f(x)$ with a nonlinear deep fully connected network. 
+
+\subsection{Measurement Metrics}
+To assess the predictive performances in survival analysis, the ordinary model utilizes the concordance index (C-Index) as the standard evaluation metric, a widely accepted measure for model assessment in survival prediction\cite{steck2007ranking}. 
+The C-Index is expressed as:
+\begin{equation}
+    C-Index=\frac{\#correctly~ordered~pairs}{\#all~possible~ranking~pairs}
+\end{equation}
+
+The equation represents the ratio of correctly ordered pairs of subjects' survival times to all possible ranking pairs. 
+The Cox proportional hazards model provides a relative risk assessment for a patient compared with others, making the CI a suitable evaluation index.
 
 \section{Methodology}
 \subsection{Region of Interest}
@@ -105,7 +127,25 @@ It's the features including cell shape, size, the distribution of pixel intensit
 % DeepConvSurv
 % To evaluate whether
 Taking whole slide images with various size as inputs, in order to do end-to-end survival prediction, DeepConvSurv proposed by \cite{zhu2016deep} randomly chooses the patches among the ROIs annotated by the professional pathologists.
+The deep convolutional neural network of DeepConvSurv is shown in fig.\ref{DeepConvSurv}.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{img/deepconvsurv.png}
+    \caption{the framework of DeepConvSurv(image from \cite{zhu2016deep})}
+    \label{DeepConvSurv}
+\end{figure}
 And the experiments showed it could extract more abstract information different from the hand-crafted features generated by the state-of-the-art analysis tool CellProfiler mentioned above.
+The primary distinction between the model and the traditional Cox model lies in the exponential component. The loss function for the model is:
+\begin{equation}
+l(w,b)=-\sum_{i:R_i=1}h_{w,b}^{last}(x_i)+log\sum_{j:t_j>=t_i}exp(h_{w,b}^{last}(x_j)),
+\end{equation}
+
+In the equation, $h_{w,b}^{last}(x)$ represents the output of DeepConvSurv, specifically the output of the last layer, where $w$ and $b$ denote the parameters of the network, and $x_i$ and $x_j$ refer to the $i^{th}$ and $j^{th}$ inputs. To simplify, we will omit the parameters of each layer and express $h_{w,b}^{last}(x)$ as $h^{last}(x)$.
+Therefore, the loss function's gradient is changed to:
+\begin{equation}
+\delta^{last}(x_i)=\frac{\partial l(w,b)}{\partial h^{last}(x_i)}=-1+\frac{exp(h^{last}(x_i))}{\sum_{j:t_j>=t_i}exp(h^{last}(x_j))},
+\end{equation}
+
 % convnet [6], [8], [9], [10], [11]
 Except this, \cite{zhu2017wsisa}, \cite{di2020ranking}, \cite{yao2020whole}, \cite{abbet2020divide}, \cite{yao2019deep} have shown that random sampling of patches within the tissues in WSIs still makes sense in stratifying phenotypic information which can be improved.
 % Predicting cancer outcomes
@@ -166,7 +206,13 @@ Pathological analysis revealed that specific tumor characteristics, such as vasc
 Overall, this study demonstrated the potential of artificial intelligence in refining HCC prognosis prediction and emphasized the significance of collaboration between pathologists and machine learning for deep-learning algorithm construction that benefited from expert knowledge and contributed to a better biological understanding of their predictions.
 
 % SeTranSurv；Train Feature Extraction Model；Recent studies have shown；
-SeTranSurv, the proposed model in \cite{huang2021integration} applies SimCLR to train the initial feature extraction model ResNet18\cite{he2016deep} to get the specialized model for downstream task survival prediction.
+SeTranSurv, the proposed model in \cite{huang2021integration}(and shown in fig.\ref{SeTranSurv}) applies SimCLR to train the initial feature extraction model ResNet18\cite{he2016deep} to get the specialized model for downstream task survival prediction.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{img/setran.png}
+    \caption{the framework of SeTranSurv(image from \cite{huang2021integration})}
+    \label{SeTranSurv}
+\end{figure}
 During the training the model applies the contrastive loss\cite{he2020momentum} to enhance feature extraction ability.
 Firstly augmentation module in SeTranSurv using two methods to transform a random image example to a position pair, then the model uses the fine-tuned feature extractor raised above to get the features. 
 Considering other images as negative examples ensures that the views of different slide images are far apart in the high-dimensional space and the views of the same image are closer in the process of training.
@@ -552,7 +598,7 @@ like to thank $\ldots$ .'' Instead, write ``F. A. Author thanks $\ldots$ .'' In 
 cases, sponsor and financial support acknowledgments are placed in the 
 unnumbered footnote on the first page, not here.
 
-
+% \bibliographystyle{plainnat}
 \bibliography{ref}
 \bibliographystyle{unsrt}
 \end{document}
