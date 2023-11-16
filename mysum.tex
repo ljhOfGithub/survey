@@ -6,6 +6,8 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{hyperref}
+\usepackage[justification=centering]{caption}
+\usepackage{amsmath}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \markboth{\journalname, VOL. XX, NO. XX, XXXX 2020}
@@ -55,6 +57,10 @@ In this review, we will examine the key methodologies, challenges, and recent ad
 
 As the fields of digital pathology and computational biology continue to evolve, the integration of WSI into survival analysis represents a promising frontier for improving patient outcomes and advancing our understanding of disease dynamics. This review will serve as a guide for researchers and practitioners interested in leveraging WSI for survival prediction in diverse clinical and research settings.
 
+
+The complexity of certain data modalities with high dimensionality poses a challenge for physicians in manually interpreting multi-modal biomedical data to decide on treatment and assess prognosis\cite{gevaert2006predicting}. 
+The capability to extract "sub-visual" image features from digital pathology slide images—features provides an opportunity for more robust quantitative modeling of disease appearance and potentially improved predictions of disease aggressiveness and patient outcomes\cite{madabhushi2016image}. 
+
 % \section{Background}
 % 癌症风险预测是指对潜在的病人的全切片WSI进行分析，也可以结合病人的其他临床数据，例如年龄、性别等，得出病人直至死亡的存活时间。
 % 在生存预测问题中，所使用的数据集中，所使用的censorship和survival time基本都是右删失。
@@ -62,8 +68,6 @@ In recent years, several computer algorithms for hematoxylin and eosin (H\&E) st
 The Cancer Genome Atlas (TCGA) are the most common datasets when discussing the topics of survival prediction.
 
 the observation of one patient is either a survival time $(O_i)$ or a censored time $(C_i).$ If and only if $t_i=\min(O_i,C_i)$ can be observed during the study, the dataset is right-censored [17]. An instance in the survival data is usually represented as $(x_i,t_i,\delta_i)$ where $x_i$ is the feature vector, $t_i$ is the observed time, $\delta_i$ is the indicator which is 1 for a un-censored instance (death occurs during the study) and 0 for a censored instance.
-
-The survival function $S(t|x)=Pr(O\geq t|x)$ is used to identify the probability of being still alive at time $t$ where $x=(x_1,...x_p)^T$ is the covariates of dimension $p$, The haz- ard function is defined as
 
 In recent years, the integration of Whole Slide Imaging (WSI) into the realm of survival prediction has emerged as a promising frontier in the fields of digital pathology, oncology, and computational biology. WSI, a revolutionary technology, has transformed the way we analyze tissue samples, providing a comprehensive digital representation of entire pathology slides.
 
@@ -109,13 +113,39 @@ Compared with traditional survival analysis, Katzman et al.\cite{jing2019deep} i
 
 \subsection{Measurement Metrics}
 To assess the predictive performances in survival analysis, the ordinary model utilizes the concordance index (C-Index) as the standard evaluation metric, a widely accepted measure for model assessment in survival prediction\cite{steck2007ranking}. 
-The C-Index is expressed as:
-\begin{equation}
-    C-Index=\frac{\#correctly~ordered~pairs}{\#all~possible~ranking~pairs}
+For a set of Whole Slide Images (WSIs) from \mathcal{M} patients along with their respective labels, the input data is represented as: \begin{aligned}\mathbb{D}_{in}&=&\{C_1,C_2,...,C_M\},M&\geq&2,\end{aligned}
+The C-Index\cite{heagerty2005survival} is expressed as:
+% deepconvsurv的
+% \begin{equation}
+%     C-Index=\frac{\#correctly~ordered~pairs}{\#all~possible~ranking~pairs}
+% \end{equation}
+% ranksurv的
+\begin{equation}\label{c-index-1}
+    \mathcal{C}_{index}(\mathbb{D}_{in})=\frac1{\mathcal{M}}\sum_{i:\delta_i=1}\sum_{j:T_i<T_j}\mathcal{I}[(T_i,X_i)<(T_j,X_j)]
 \end{equation}
 
+Here, $\mathcal{M}$ is the number of comparable pairs, $T[.]$ denotes the indicator function, and $T$ is the actual observation. 
+The C-index ranges from 0 to 1, where a larger C-index indicates better prediction performance, and vice versa. Specifically, 0 represents the worst condition, 1 is the best, and 0.5 is the value for a random guess. 
+It is worth noting that the indicator matrix of the C-index has a unique characteristic, as illustrated in the following formulation:
+\begin{equation}\label{c-index-2}
+    F(X_i, X_j) = 1 - F(X_j, X_i)
+\end{equation}
 The equation represents the ratio of correctly ordered pairs of subjects' survival times to all possible ranking pairs. 
 The Cox proportional hazards model provides a relative risk assessment for a patient compared with others, making the CI a suitable evaluation index.
+% 来自Deep Multi-dictionary Learning for Survival Prediction with Multi-zoom Histopathological Whole Slide Images；
+% pathomic中有z-score
+The Kaplan-Meier curve, illustrating the trend of the survival function $S(t)=\Pr(T>t)$, is employed for assessing the model's effectiveness. 
+The survival function adheres to the subsequent relationship at the $k$-th time point (for uncensored samples):
+\begin{equation}
+S(t_k)=S(t_{k-1})(1-\frac{e_k}{r_k})
+\end{equation}
+
+Here, $S(t_{k-1})$ represents survival probability at the time point $t_{k-1}$, $e_k$ is the count of events occurring between $t_{k-1}$ and $t_k$, and $r_k$ is the number of patients with observed time exceeding $t_k$.
+
+To evaluate the survival model intuitively, the entire dataset is stratified into high-risk and low-risk groups using the some risk score quantiles of the predicted relative risk as a threshold. Model performance is assessed by comparing the Kaplan-Meier curves of these groups, with greater separation indicating better performance. The significance of the difference is determined by the $P$ value obtained through the log-rank test, where $P<0.05$ signifies statistical significance.
+
+Survival prediction, a regression problem, involves distinguishing high-hazard and low-hazard patients by adopting a threshold, transforming it into a binary classification task. 
+Positive samples include uncensored patients with survival time under the threshold, while negative samples comprise patients with survival/censored time exceeding the threshold. Additionally, the model's performance is evaluated by plotting the Receiver Operating Characteristic (ROC) curve and calculating the Area Under the ROC Curve (AUC).
 
 \section{Methodology}
 \subsection{Region of Interest}
@@ -197,7 +227,7 @@ The efficiency of the EOCSA framework may decrease when handling an extremely la
 
 % SCHMOWDER
 In the study of \cite{saillard2020predicting}, two deep-learning algorithms were developed using whole-slide digitized histological slides (whole-slide imaging; WSI) to predict the survival of patients with hepatocellular carcinoma (HCC) who underwent surgical resection. 
-The study utilized both a discovery set (Henri Mondor Hospital) for algorithm development and an independent validation set (The Cancer Genome Atlas [TCGA] for validation. 
+The study utilized both a discovery set (Henri Mondor Hospital) for algorithm development and an independent validation set (The Cancer Genome Atlas [TCGA]) for validation. 
 Whole-slide images were divided into smaller squares ("tiles"), and features were extracted using a pretrained convolutional neural network. 
 The first algorithm, "SCHMOWDER," incorporates an attention mechanism for tumor areas annotated by a pathologist, while the second, "CHOWDER," does not require human expertise.
 In the discovery set, both SCHMOWDER and CHOWDER achieved high c-indices for survival prediction surpassing a composite score based on baseline variables. 
@@ -217,6 +247,44 @@ During the training the model applies the contrastive loss\cite{he2020momentum} 
 Firstly augmentation module in SeTranSurv using two methods to transform a random image example to a position pair, then the model uses the fine-tuned feature extractor raised above to get the features. 
 Considering other images as negative examples ensures that the views of different slide images are far apart in the high-dimensional space and the views of the same image are closer in the process of training.
 Additionally, position encodings capturing spatial information and self-attention modules learning correlation between patches are put into the training of the model above to obtain slide-level features and therefore the patient-level features.
+
+The workflow of SimCLR is depicted on the left side of fig.\ref{SeTranSurv}. This consistency is maximized using the contrastive loss\cite{he2020momentum} in the potential space. 
+The framework encompasses four major components.
+A data augmentation module that randomly transforms any given data instance into two correlated views. 
+The image, denoted as $x$ undergoes two different data augmentation methods to produce $\widetilde{x}_i$ and $\widetilde{x}_j,$ forming a position pair.
+The goal of the contrastive prediction task is to identify $\widetilde{x}_j$ in $\{\widetilde{x}_k\}_{k\neq i}$ for a given $\widetilde{x}_i$.
+A neural network-based encoder $f$ that extracts representation vectors from augmented data instances. 
+% ResNet18 is utilized to obtain patch features $h_i=f(\widetilde{x}_i),$ where $h_i$ is the output after the average pooling layer. 
+A small MLP $g$ that maps representations to the space where the contrastive loss is applied. 
+The MLP is employed to obtain Eq.\ref{SeTranSurv-1}
+\begin{equation}\label{SeTranSurv-1}
+z_i=g(h_i)=W^{(2)}ReLU(W^{(1)}h_i)
+\end{equation}
+A contrastive loss function defined for a contrastive prediction task. 
+For a given batch size $N,$ the set $\{\widetilde{x}_k\}, k\in\{0...N\}$ comprises a positive pair of examples $\widetilde{x}_i$ and $\widetilde{x}_j$. 
+
+As illustrated on the right side of fig.\ref{SeTranSurv}, the Transformer Encoder\cite{dosovitskiy2020image} comprises multiple encoding blocks, each with constant widths. 
+% The dimension $N$ of the encoding block is equivalent to the number of patches sampled from a Whole Slide Image (WSI). 
+A learnable embedding is prepended to the sequence of embedded patches $(z_0^0)$ like BERT\cite{devlin2018bert}, and its state at the output of the Transformer encoder $(z_L^0)$ serves as the WSI representation $y$. 
+The Transformer encoder consists of alternating layers of multi-headed self-attention (MSA) and MLP blocks (Equations \ref{SeTranSurv-2} and \ref{SeTranSurv-3}).
+\begin{equation}\label{SeTranSurv-2}
+t_l=MSA(LN(z_{l-1}))+z_{l-1},\quad l=1...L
+\end{equation}
+
+\begin{equation}\label{SeTranSurv-3}
+{z}_l=MLP(LN(t_l))+t_l,\quad l=1...L
+\end{equation}
+
+\begin{equation}\label{SeTranSurv-4}
+L(\boldsymbol{R})=\sum_{i\in\{i:S_i=1\}}(-R_i+log\sum_{j\in\{j:T_j\leq T_i\}}exp(R_j))
+\end{equation}
+% The self-attention module calculates feature correlations between different patches through an attention mechanism. 
+Layer normalization (LN) is applied before every block, and residual connections follow every block. 
+The MLP comprises two layers with a GELU non-linearity. 
+The Transformer Encoder is composed of six encoding blocks, each with four heads, and the hidden size of the MLP is 128.
+The resultant $y=LN(z_L^0)$ embodies the amalgamation of high-level semantic features by the Transformer Encoder. 
+Passing through an MLP Head module denoted as $R~=$ $W^{(2)}ReLU(W^{(1)}y)$, it directly produces predicted risks. 
+The loss function corresponds to the negative Cox log partial likelihood (Eq.\ref{SeTranSurv-4}) designed for censored survival data, where $S_i$ and $T_i$ represent the censoring status and survival time of the $i$-th patient, respectively.
 
 % ESAT
 In the model of \cite{shen2022explainable}, particularly, a single filter within the convolutional layer is utilized for aggregating one dimension of the multi-dimensional characteristics from neighboring patches. 
@@ -328,10 +396,35 @@ Subsequently, the results showed that the gene expression and protein informatio
 
 % MultimodalPrognosis
 In the model proposed in \cite{cheerla2019deep} named MultimodalPrognosis, clinical, genomic and WSI images data are processed by FC layers, deep highway networks\cite{srivastava2015highway}, the SqueezeNet architecture\cite{iandola2016squeezenet} separately.
+The architecture except SqueezeNet is demonstrated in fig.\ref{multimodalprognosis}.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{img/multimodalprognosis.png}
+    \caption{the framework of multimodalprognosis(image from \cite{cheerla2019deep})}
+    \label{multimodalprognosis}
+\end{figure}
 The microRNA data is also passed through deep highway networks discussed. 
 One notable problem about the microRNA and clinical data is the missing data.
 However, the function of the highway networks dose not stand out without comparison with other methods in the paper.
-Then, the similarity loss is used to train the model to recognize the patient-distinguishing patterns and correspond the data from different modality to generate associated representations. 
+Then, the similarity loss(Eq.\ref{multimodalprognosis-1}-Eq.\ref{multimodalprognosis-3}) is used to train the model to recognize the patient-distinguishing patterns and correspond the data from different modality to generate associated representations. 
+\begin{equation}\label{multimodalprognosis-1}
+    sim_0(x,y)=\sum_{i,j\in\mathrm{mod}\text{alities}} \frac { \hat { h }_{0,i}(x_i)\cdot\hat{h}_{0,j}(y_j)}{|\hat{h}_{\theta,i}(x_i)||\hat{h}_{\theta,j}(y_j)|}
+\end{equation}
+
+\begin{equation}\label{multimodalprognosis-2}
+    L_\theta(x,y)=\max(0,M-sim_0(x,y)+sim_0(x,x))
+\end{equation}
+
+\begin{equation}\label{multimodalprognosis-3}
+    l_{sim}(\theta)=\sum_{x,y}L_{\theta}(x,y)
+\end{equation}
+The model aggregates the similarity loss for each pair of modalities that are available.
+In the above expression, $x_i$ represents the data for modality $i$, and $h_{\theta i}$ denotes the predictive model for modality $i$. 
+It's important to note that the parameter $M$ regulates the 'tightness' of the clustering. 
+A higher value of $M$ allows feature vectors for a given patient to be relatively different, as long as they remain similar to a certain extent. 
+Conversely, a lower value of $M$ compels feature vectors for a patient to be much closer together, which is generally more desirable but may lead to mode collapse. 
+This loss is calculated for every pair of patients in a batch. 
+Consequently, the unsupervised model could discern crucial, patient-distinguishing patterns in both genomic and image data. 
 Thus, the final loss function is composed of cox loss and similarity loss in the unsupervised model.
 The multi-modal dropout was also invented that is dropping whole feature vectors of each modality and accordingly increase the weights of other modalities to build robust representations.
 The solution above was then validated in the experiments including visualizing the encodings of the pancancer patient cohort and calculating the C-index values and the results also demonstrated the essence of the adopted modalities.
@@ -400,7 +493,7 @@ The GPDBN framework in \cite{wang2021gpdbn} comprises an inter-modality bilinear
 This work needs further more data to enhance prognostic performance.
 
 % MultiSurv
-Similar to the MultimodalPrognosis mentioned, the model in \cite{vale2021long} can also process the missing data which includes tabular clinical data (herein simply referred to as “clinical”), gene expression (referred to as “mRNA”), microRNA expression (miRNA), DNA methylation (DNAm), gene copy number variation (CNV) data, and whole-slide images (WSI).
+Similar to \cite{cheerla2019deep}, the model in \cite{vale2021long} can process the missing data including tabular clinical data (herein simply referred to as "clinical"), gene expression ("mRNA"), microRNA expression(miRNA), DNA methylation(DNAm), gene copy number variation(CNV) data and WSI.
 If some patients loss the whole modality data, they will be excluded when training the model using uni-modal data.
 And the missing data will be replaced by zero matrix when training the multi-modal model.
 To avoid over-fitting, the model has the mechanism to select some patients randomly and replace their specific modality data with zero input.
@@ -483,7 +576,7 @@ The extremely high gigapixel resolution of Whole Slide Images (WSI) requires res
 
 %DeepGraphSurv
 %However, modeling a WSI as graph is not straightforward. Cell-graph [6] is infeasible for WSIs due to its huge number of cells and the many possible noisy nodes (isolated cells). The intermediate patch-wise features are a good option to construct graph with, balancing efficiency and granularity. However, applying CNNs on graphstructured data is still difficult.
-DeepGraphSurv\cite{li2018graph}is the first GCN-based survival prediction model that uses WSIs as input. The authors believe that intermediate patch-wise features are a suitable choice for constructing a graph. They integrate global topology features and local patch features of WSIs using spectral convolution operators, which is the core of the entire architecture. In their approach, each patch is treated as a node, and node features are generated using a pre-trained VGG-16 model on ImageNet. The initial WSI graph is built based on patch features, and the VGG-16 feature extractor is not fine-tuned for WSI patches due to the absence of patch labels. Consequently, the initial graph may not accurately represent the topology between WSI patches, which is attributed to the limited training of feature networks.To address this issue, the authors design an independent graph G and  L to describe the topological relationships between specific survival-related WSI patches. This framework can simultaneously learn both local and global representations of Whole Slide Images by integrating local patch features with global topological structures through convolution. Typically, only a few local Regions of Interest (RoIs) in WSIs are relevant to survival analysis. Random sampling may not guarantee that all patches originate from RoIs. The attention mechanism is employed to selectively choose patches by learning their importance. So they introduce a parallel network with attention to adaptively learn attention on node features for selecting more important patches.
+DeepGraphSurv\cite{li2018graph} is the first GCN-based survival prediction model that uses WSIs as input. The authors believe that intermediate patch-wise features are a suitable choice for constructing a graph. They integrate global topology features and local patch features of WSIs using spectral convolution operators, which is the core of the entire architecture. In their approach, each patch is treated as a node, and node features are generated using a pre-trained VGG-16 model on ImageNet. The initial WSI graph is built based on patch features, and the VGG-16 feature extractor is not fine-tuned for WSI patches due to the absence of patch labels. Consequently, the initial graph may not accurately represent the topology between WSI patches, which is attributed to the limited training of feature networks.To address this issue, the authors design an independent graph G and  L to describe the topological relationships between specific survival-related WSI patches. This framework can simultaneously learn both local and global representations of Whole Slide Images by integrating local patch features with global topological structures through convolution. Typically, only a few local Regions of Interest (RoIs) in WSIs are relevant to survival analysis. Random sampling may not guarantee that all patches originate from RoIs. The attention mechanism is employed to selectively choose patches by learning their importance. So they introduce a parallel network with attention to adaptively learn attention on node features for selecting more important patches.
 
 %Pathomic Fusion
 Chen\cite{chen2020pathomic} utilized a Graph Convolutional Network (GCN) approach to extract morphometric cell features from histology images. This article proposes a method called Pathomic Fusion, which is a comprehensive framework for integrating histopathological and genomic features for cancer diagnosis and prognosis. In this approach, cells found within histological tissue are represented as nodes in a graph. These cells are initially identified using a deep learning-based nuclei segmentation algorithm, and connections between cells are established using the K-Nearest Neighbors (KNN) method. The features of each cell are initialized through a combination of handcrafted features and deep features obtained via contrastive predictive coding. The aggregation and combination functions employed in this approach are drawn from the GraphSAGE architecture, with the additional inclusion of node masking and hierarchical pooling strategies from SAGEPool. The primary objective of this method is to extract and learn cell morphological features from histological images.
