@@ -8,6 +8,7 @@
 \usepackage{hyperref}
 \usepackage[justification=centering]{caption}
 \usepackage{amsmath}
+% \usepackage{booktabs}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \markboth{\journalname, VOL. XX, NO. XX, XXXX 2020}
@@ -95,6 +96,20 @@ This review embarks on a journey to explore the multifaceted landscape of surviv
 
 As we advance in this ever-evolving field, the fusion of digital pathology with survival prediction promises to unravel the intricacies of disease dynamics, enhance patient care, and pave the way for a new era of data-driven medicine.
 
+To facilitate future researches on survival prediction, we categorize the models by their methods, as listed in Table \ref{summary table}.
+\begin{table}
+    \centering
+    \begin{tabular}{cccc}
+        Category & Method & Highlights & Publication \\
+        ROIs   & Data 2   & Data 3   \\
+        Features Extraction   & Data 5   & Data 6   \\
+        Multimodality   & Data 5   & Data 6   \\
+        Graph Neural Network & Data 5   & Data 6
+    \end{tabular}
+    \caption{Representative Works of Survival Prediction.}
+    \label{summary table}
+\end{table}
+
 \section{FORMULATION OF SURVIVAL PREDICTION}
 \subsection{Survival Analysis}
 In traditional survival modeling, it is assumed that the time durations follow an unknown distribution. Among the popular modeling methods, the Cox proportional hazard model stands out, as it focuses on modeling hazards rather than the survival function:
@@ -169,12 +184,17 @@ if $j\in $KNN$( i) $ and $D(i,j)<d$  otherwise 0
 
 
 \section{Methodology}
+In this section, we review the models of transformer-based models in survival prediction using whole slide images with different methods, including focusing on ROIs, extracting and aggregating image features, combining with other modalities, understanding images with graph neural networks. 
 \subsection{Region of Interest}
 There exist many methods developed for predicting survival through the information provided by the whole slide images(WSIs).
 Rather than utilizing the overall patches from the gigapixel pathology images, the traditional models usually pre-select a subset of critical patches from the region of interest (ROI) as the input data.
 Apart from the features extracted from ROIs with the deep neural networks(DNNs), some morphological features of the image patches can be extracted and accessed by the image analysis software named CellProfiler\cite{lamprecht2007cellprofiler}, commonly used for cell phenotypes measurements at that time.
 It's the features including cell shape, size, the distribution of pixel intensity in the cells and nuclei and texture of cells and nuclei that the quantitative analysis tool can extract.
 
+
+
+
+\subsubsection{Manually Annotations}
 % DeepConvSurv
 % To evaluate whether
 Taking whole slide images with various size as inputs, in order to do end-to-end survival prediction, DeepConvSurv proposed by \cite{zhu2016deep} randomly chooses the patches among the ROIs annotated by the professional pathologists.
@@ -197,20 +217,25 @@ Therefore, the loss function's gradient is changed to:
 \delta^{last}(x_i)=\frac{\partial l(w,b)}{\partial h^{last}(x_i)}=-1+\frac{exp(h^{last}(x_i))}{\sum_{j:t_j>=t_i}exp(h^{last}(x_j))},
 \end{equation}
 
-% convnet [6], [8], [9], [10], [11]
-Except this, \cite{zhu2017wsisa}, \cite{di2020ranking}, \cite{yao2020whole}, \cite{abbet2020divide}, \cite{yao2019deep} have shown that random sampling of patches within the tissues in WSIs still makes sense in stratifying phenotypic information which can be improved.
 % Predicting cancer outcomes
 % in this paper；results；
 With the help of online tool, Mobadersany et al.\cite{mobadersany2018predicting} manually selected the ROIs without tissue-processing artifacts containing overstaining or understaining areas from alternates, which have viable tumor features. 
 Faced the difficulty of intratumoral heterogeneity and few availability of labeled data, to obtain better and more robust effects, the model uses the data augmentation techniques and sorted median risks to get prediction results.
 And the model eventually gets more accurate outcomes. 
 Moreover, the paper provides some publicly accessible datasets with ROIs.
+
 % Pathomic Fusion；microenvironment 
-With the assistance of the assembled diagnostic slides offered by \cite{mobadersany2018predicting} with ROIs, characteristics of tumor microenvironment could be got in the built graphs in \cite{chen2020pathomic}.
+With the assistance of the assembled diagnostic slides offered by \cite{mobadersany2018predicting} with ROIs, characteristics of tumor micro-environment could be got in the built graphs in \cite{chen2020pathomic}.
 Because semantic segmentation is executed in ROIs to recognize and localize relevant cells acting as set of nodes in the spatial graph for abstract graph representations.
+
+% convnet [6], [8], [9], [10], [11]
+Except this, \cite{zhu2017wsisa}, \cite{di2020ranking}, \cite{yao2020whole}, \cite{abbet2020divide}, \cite{yao2019deep} have shown that random sampling of patches within the tissues in WSIs still makes sense in stratifying phenotypic information which can be improved.
+
 % deepcorrsurv
 Not only dose the model in \cite{yao2017deep} use the public cancer survival dataset TCGA, but it also adopts a core sample set from UT MD Anderson Cancer Center during the holistic procedure.
 And it takes advantage of the annotations of ROIs to locate the possible tumor regions in pathological images for subsequent steps.
+
+\subsubsection{Sampling Strategy}
 % Comprehensive analysis
 % In this study；In the NLST dataset；
 % esat中提到分类
@@ -219,42 +244,26 @@ Since revealing ROIs requires specialized prior knowledge and expensive labor co
 The proposed model in \cite{wang2018comprehensive} can identify tumor regions as ROIs in hematoxylin and eosin (H\&E) stained pathology images using predicted likelihood of image patches, each patch tagged as the highest probability category. 
 In this way, some tumor area-related features can be extracted as the descriptors of above ROIs including area, perimeter, convex area, filled area, major axis length, minor axis length and so on.
 For the purpose of training the prognostic model indicating that the risk group defined by tumor shape features is an independent prognostic factor, the features are used in the training process.
+
 % capsurv
 The model in \cite{mackenzie2022neural} has a automated pipeline excluding the background white space among the identified tissue, then overlooking the sparse cellularity regions and randomly sampling the potential patches from the foreground area.
 
+\subsubsection{Discussion}
 In a short, as the methods previously implemented, ROIs routinely ask artificial marking and rigorous reviews to produce passable survival prediction and focusing on ROI ignores the impact of other regions.
 Additionally speaking, the ROI-based methods discussed above require pathologists to hand-annotate ROIs, a tedious task.
 
-\subsection{Feature Extraction}
+
+\subsection{Image Features Processing}
 Previous methods often extract image features from patches of whole slide images(WSIs) using the pre-trained model based on the numerous natural images datasets ImageNet theoretically being able to withdraw the low-dimensional features such as edge and texture.However,they have ignored the enormous difference between the WSIs and the natural images.
 Recently, some new methods have been proposed to suitably get features from the WSIs to overcome the significant shortcomings.
 Without the knowledge of each patch-level labels, the self-supervised learning methods can autonomously impart the outstanding feature extraction ability to the model.
+\subsubsection{Pre-trained Image Features Extractor}
 
 % Self supervised contrastive 新方法
 The method named SimCLR in \cite{ciga2022self}, one of the self-supervised learning(SSL) methods, using the contrastive learning has excellent feature extraction capacity even comparable to the supervised learning model thanks to the collected 57 digital histopathology datasets with none labels.
 % Fine-Tuning and training 新方法
 % higt，hgcn直接用；hyper adac，ds-mil用simclr作为策略
 Aside from SimCLR as a strategy used in \cite{benkirane2022hyper} and \cite{li2021dual}, KimiaNet from \cite{riasatian2021fine} has also been one of the most welcome pre-trained models used for survival analysis exploiting a variable, multi-organ open image repository lick TCGA, which has been employed directly to extract the feature embeddings of image patches in \cite{guo2023higt} \cite{li2021dual}.
-
-% EOCSA
-In the research of \cite{liu2022eocsa}, Liu et at. introduced the EOCSA framework, which focuses on the survival analysis of EOC by utilizing deep learning techniques to process WSIs. 
-They developed a prediction model called DCAS using CBAM\cite{woo2018cbam}, which demonstrated excellent feature extraction capabilities and strong predictive performance. 
-The DCAS model employs a cluster-selection strategy to efficiently eliminate redundant information. 
-Unlike other deep survival prediction models, they integrated spatial and channel attention modules in the DCAS model to capture tumor-related information. 
-Moreover, their weight calculation method enabled the generation of more distinctive patient-level features. 
-However, there are still some limitations in the EOCSA framework. 
-Firstly, the cluster selection process, while effective in choosing discriminative patches, can be computationally expensive. 
-The efficiency of the EOCSA framework may decrease when handling an extremely large number of WSIs. Secondly, not all selected patches are guaranteed to be highly discriminative, which could potentially impact the accuracy of survival analysis if non-discriminative patches are included. 
-
-% SCHMOWDER
-In the study of \cite{saillard2020predicting}, two deep-learning algorithms were developed using whole-slide digitized histological slides (whole-slide imaging; WSI) to predict the survival of patients with hepatocellular carcinoma (HCC) who underwent surgical resection. 
-The study utilized both a discovery set (Henri Mondor Hospital) for algorithm development and an independent validation set (The Cancer Genome Atlas [TCGA]) for validation. 
-Whole-slide images were divided into smaller squares ("tiles"), and features were extracted using a pretrained convolutional neural network. 
-The first algorithm, "SCHMOWDER," incorporates an attention mechanism for tumor areas annotated by a pathologist, while the second, "CHOWDER," does not require human expertise.
-In the discovery set, both SCHMOWDER and CHOWDER achieved high c-indices for survival prediction surpassing a composite score based on baseline variables. 
-These results were further confirmed in the TCGA dataset, where both models outperformed the baseline variables. 
-Pathological analysis revealed that specific tumor characteristics, such as vascular spaces, macrotrabecular architectural patterns, and the absence of immune infiltration, were strongly associated with poor survival. 
-Overall, this study demonstrated the potential of artificial intelligence in refining HCC prognosis prediction and emphasized the significance of collaboration between pathologists and machine learning for deep-learning algorithm construction that benefited from expert knowledge and contributed to a better biological understanding of their predictions.
 
 % SeTranSurv；Train Feature Extraction Model；Recent studies have shown；
 SeTranSurv, the proposed model in \cite{huang2021integration}(and shown in fig.\ref{SeTranSurv}) applies SimCLR to train the initial feature extraction model ResNet18\cite{he2016deep} to get the specialized model for downstream task survival prediction.
@@ -307,7 +316,42 @@ The resultant $y=LN(z_L^0)$ embodies the amalgamation of high-level semantic fea
 Passing through an MLP Head module denoted as $R~=$ $W^{(2)}ReLU(W^{(1)}y)$, it directly produces predicted risks. 
 The loss function corresponds to the negative Cox log partial likelihood (Eq.\ref{SeTranSurv-4}) designed for censored survival data, where $S_i$ and $T_i$ represent the censoring status and survival time of the $i$-th patient, respectively.
 
-% ESAT
+% Cancer Survival Prediction即 convnet
+% Feature Extraction Via
+Without using convnet-based methods, the model in \cite{fan2022cancer} also considers the self-supervised learning (SSL) methods mainly for making full use of plentiful color information designed for WSI patches or pixels without hand-actuated labels, totally colorization and cross-channel as the pretext tasks.
+The colorization model is trained to predict corresponding color channels based on the lightness channel and the letter, on the other hand, is trained to get lightness channel using given color channels data, after which the visualized results indicating highlighted overall structure of nuclei and tissue.
+
+% WSI-HSfeatures 有预训练模型DeepConvSurv
+They proposed a survival prediction method \cite{li2023novel} based on tissue pathology and tissue region features extracted from WSIs. 
+Use the DeepConvSurv\cite{zhu2016deep} model to extract histopathological features from plaques of actual tissue types (tumors, lymphocytes, stroma, and mucus), and extract tissue region features from the tissue map of WSI by using image processing techniques to locate and quantify tissue regions (tumors, cells, and stroma). 
+Firstly, this method uses the DeepConvSurv model to extract the histopathological features of tumors, lymphocytes, stroma, and mucus. 
+Secondly, by evaluating the area and proportion of tumors, lymphocytes, and stroma, tissue area features are retrieved from the tissue map. 
+Thirdly, we use the extracted histopathological and tissue regional features to predict patient risk using six survival models.
+
+% PAGE-Net,Pathomic Fusion,PG-TFNet 是特征提取器和多模态结合
+
+\subsubsection{Image Features Fusion}
+% EOCSA 没有预训练的模型
+In the research of \cite{liu2022eocsa}, Liu et at. introduced the EOCSA framework, which focuses on the survival analysis of EOC by utilizing deep learning techniques to process WSIs. 
+They developed a prediction model called DCAS using CBAM\cite{woo2018cbam}, which demonstrated excellent feature extraction capabilities and strong predictive performance. 
+The DCAS model employs a cluster-selection strategy to efficiently eliminate redundant information. 
+Unlike other deep survival prediction models, they integrated spatial and channel attention modules in the DCAS model to capture tumor-related information. 
+Moreover, their weight calculation method enabled the generation of more distinctive patient-level features. 
+However, there are still some limitations in the EOCSA framework. 
+Firstly, the cluster selection process, while effective in choosing discriminative patches, can be computationally expensive. 
+The efficiency of the EOCSA framework may decrease when handling an extremely large number of WSIs. Secondly, not all selected patches are guaranteed to be highly discriminative, which could potentially impact the accuracy of survival analysis if non-discriminative patches are included. 
+
+% SCHMOWDER 没有预训练的模型
+In the study of \cite{saillard2020predicting}, two deep-learning algorithms were developed using whole-slide digitized histological slides (whole-slide imaging; WSI) to predict the survival of patients with hepatocellular carcinoma (HCC) who underwent surgical resection. 
+The study utilized both a discovery set (Henri Mondor Hospital) for algorithm development and an independent validation set (The Cancer Genome Atlas [TCGA]) for validation. 
+Whole-slide images were divided into smaller squares ("tiles"), and features were extracted using a pretrained convolutional neural network. 
+The first algorithm, "SCHMOWDER," incorporates an attention mechanism for tumor areas annotated by a pathologist, while the second, "CHOWDER," does not require human expertise.
+In the discovery set, both SCHMOWDER and CHOWDER achieved high c-indices for survival prediction surpassing a composite score based on baseline variables. 
+These results were further confirmed in the TCGA dataset, where both models outperformed the baseline variables. 
+Pathological analysis revealed that specific tumor characteristics, such as vascular spaces, macrotrabecular architectural patterns, and the absence of immune infiltration, were strongly associated with poor survival. 
+Overall, this study demonstrated the potential of artificial intelligence in refining HCC prognosis prediction and emphasized the significance of collaboration between pathologists and machine learning for deep-learning algorithm construction that benefited from expert knowledge and contributed to a better biological understanding of their predictions.
+
+% ESAT 没有预训练的特征提取器
 In the model of \cite{shen2022explainable}, particularly, a single filter within the convolutional layer is utilized for aggregating one dimension of the multi-dimensional characteristics from neighboring patches. 
 The combination of these d filters results in the subsequent layer's feature representations.
 Subsequently, following the ViT's procedures, Shen et al. flattened the patch embedding and introduced position embedding. 
@@ -316,7 +360,7 @@ The Nystrom approach is applied to approximate the softmax matrix in self-attent
 As a result, the time complexity within this module can be reduced.
 Moreover, in order to offer understandable rationales for prediction outcomes, they introduced a post-hoc explainability technique for survival analysis.
 
-% deep_survival_analysis
+% deep_survival_analysis 没有预训练的特征提取器，用了不同颜色nlt和rgb的图片
 The approach in \cite{liu2022deep} fuses Red, Green, Blue (RGB) color image data with Nucleus, Tumor, Lymphocyte (NTL) data, which includes nuclear segmentation maps, tumor region segmentation maps, and tumor infiltrating lymphocyte (TIL) maps generated through deep learning techniques. 
 Essentially, Liu et al. treated the input data as composite images with six channels, incorporating the RGB channels and the NTL channels. 
 They adapted a recent state-of-the-art deep learning survival analysis method developed by \cite{wulczyn2020deep} to function with the RGB and NTL channels as well as multi-resolution data. 
@@ -324,12 +368,7 @@ The morphological characteristics of nuclei and cells exhibit variations depende
 Likewise, the spatial properties and distributions of tumor regions serve as important indicators of cancer progression and treatment response. 
 In addition to augmenting Whole Slide Images (WSIs) with the TIL, tumor, and nuclear segmentation channels, they trained deep learning models with different resolutions of input data to capture both local and global perspectives on the distribution of TILs, tumor regions, and nuclei in tissue. 
 
-% Cancer Survival Prediction即convnet
-% Feature Extraction Via
-Without using convnet-based methods, the model in \cite{fan2022cancer} also considers the self-supervised learning (SSL) methods mainly for making full use of plentiful color information designed for WSI patches or pixels without hand-actuated labels, totally colorization and cross-channel as the pretext tasks.
-The colorization model is trained to predict corresponding color channels based on the lightness channel and the letter, on the other hand, is trained to get lightness channel using given color channels data, after which the visualized results indicating highlighted overall structure of nuclei and tissue.
-
-% DSCA
+% DSCA 没有预训练的模型
 The model DSCA introduced in \cite{liu2023dsca}, inspired by modern feature pyramid networks\cite{wang2021pyramid}, comprises two essential elements: the dual-stream and cross-attention.
 The dual-stream module independently processes low- and high-resolution patches, enabling efficient learning of hierarchical WSI representations. 
 In the high-resolution stream, a square pooling layer is introduced to drastically reduce the number of high-resolution patches, thereby minimizing computational costs during network training. 
@@ -340,7 +379,7 @@ Firstly, it introduces a distinctive dual-stream network with cross-attention th
 Secondly, the square pooling layer significantly reduces computational costs, serving as a critical component for computational efficiency. 
 Lastly, the cross-attention-based pooling method effectively handles the semantic gap between high- and low-resolution features, facilitating improved fusion of dual-stream features and enhancing hierarchical representation for superior prediction performance.
 
-% Automated Cellular-Level Dual Global Fusion of Whole-Slide Imaging for Lung Adenocarcinoma Prognosis
+% cellular-level dual-branch global fusion 没有预训练的模型
 In the paper\cite{diao2023automated}, Diao et al. introduce a fully automated dual-branch global fusion pipeline at the cellular level to forecast survival based on Whole-Slide Images (WSI). 
 In contrast to prognosis methods that focus on nuclei, their pipeline effectively leverages global contextual information, encompassing various cell types and their locations. 
 Initially, they generated an embedded WSI map by segmenting and classifying all cell nuclei in the WSI, thereby preserving their spatial information. 
@@ -351,29 +390,48 @@ The proposed method demonstrated higher robustness compared to individual global
 Moreover, this comprehensive framework holds potential for predicting survival and treatment responses in other cancer malignancies.
 
 
-%HVTSurv
-In this work, they proposed a hierarchical visual converter (HVTSurv)\cite{shao2023hvtsurv}for predicting patient horizontal survival, which gradually explores the local horizontal space, WSI horizontal context, and patient level hierarchical interaction in the patient level package. For each WSI, the local level interaction layer will first encode the local spatial information. Then, spatial mixing is applied to make the model perform similarity calculations on features in different local windows. Finally, all WSI level features will be connected to perform attention pooling, and we use patient level representations to predict the patient's risk of danger. It is worth noting that in the local window block, this method adds relative position offset to the self attention calculation and uses Manhattan distance to measure distance,it can make the model more sensitive to short rather than long distances\cite{wu2021rethinking}. In the shuffling window block, this method shuffles patient features in different local windows, and then performs window partitioning and self attention calculations.
+%HVTSurv 没有预训练模型
+In this work, Shao et al. proposed a hierarchical visual converter (HVTSurv)\cite{shao2023hvtsurv}for predicting patient horizontal survival, which gradually explores the local horizontal space, WSI horizontal context, and patient level hierarchical interaction in the patient level package. 
+For each WSI, the local level interaction layer will first encode the local spatial information. 
+Then, spatial mixing is applied to make the model perform similarity calculations on features in different local windows. Finally, all WSI level features will be connected to perform attention pooling, and we use patient level representations to predict the patient's risk of danger. 
+It is worth noting that in the local window block, this method adds relative position offset to the self attention calculation and uses Manhattan distance to measure distance, it can make the model more sensitive to short rather than long distances\cite{wu2021rethinking}. 
+In the shuffling window block, this method shuffles patient features in different local windows, and then performs window partitioning and self attention calculations.
 
-% KAT
-They prposed kernel attention Transformer (KAT)\cite{zheng2023kernel} . Compared to ViT \cite{dosovitskiy2020image}, they use cross-attention between the tokens and a set of kernels to replace the token-wise self-attention to achieve information transmission. The information flowing in KAT is achieved by cross-attention operation between the kernels and patches, which includes the procedures of information gathering (I.G), information broadcast (I.B), and information aggregation (I.A).Through I.G flow, the local information described by the patch representations is reported to their nearby kernels for information gathering. Then, through the I.B flow, the regional information summarized by the kernels is broadcast back to the patches. Based on the bi-directional message passing flow, communication among the patch representations of the WSI can be accomplished.Finally, through I.A flow ,a classification token is used for summing up the information from all the kernels.In this information transformation process, they bind a set of anchor points defined by spatial positions in the patch to the kernel of KAT, creating a soft mask based on layered anchor points, guiding cross attention to perceive multi-scale features of WSI.The experiments have demonstrated that the kernel-based cross-attention contributes to a competitive performance for WSI classification and meanwhile significantly reduces the computational complexity of ViT in both the training and the inference stages.
+% KAT 没有预训练模型
+They prposed kernel attention Transformer (KAT)\cite{zheng2023kernel} . Compared to ViT \cite{dosovitskiy2020image}, they use cross-attention between the tokens and a set of kernels to replace the token-wise self-attention to achieve information transmission. 
+The information flowing in KAT is achieved by cross-attention operation between the kernels and patches, which includes the procedures of information gathering (I.G), information broadcast (I.B), and information aggregation (I.A). 
+Through I.G flow, the local information described by the patch representations is reported to their nearby kernels for information gathering. 
+Then, through the I.B flow, the regional information summarized by the kernels is broadcast back to the patches. 
+Based on the bi-directional message passing flow, communication among the patch representations of the WSI can be accomplished.Finally, through I.A flow ,a classification token is used for summing up the information from all the kernels.
+In this information transformation process, they bind a set of anchor points defined by spatial positions in the patch to the kernel of KAT, creating a soft mask based on layered anchor points, guiding cross attention to perceive multi-scale features of WSI.The experiments have demonstrated that the kernel-based cross-attention contributes to a competitive performance for WSI classification and meanwhile significantly reduces the computational complexity of ViT in both the training and the inference stages.
 
-% MHAttnSurv
-Inspired by the potent multi-head attention mechanism initially introduced in the transformer\cite{jiang2023mhattnsurv} model, the researchers innovatively adapted this mechanism to function efficiently in the realm of multiple instance learning. Specifically, the transformer model's core function is to learn context-sensitive representations for every element within an input sequence. However, this necessitates attention between every pair of elements, leading to a quadratic increase in computational cost with longer input sequences. In the case of the prognostic information extraction task, the sole focus is on the global representation of the input sequence. This allowed the elimination of computationally intensive pairwise attentions among the input sequence, retaining only the relevant attentions between global queries and local keys. This modification effectively ensures that computational costs scale linearly with input length. Building upon this innovation, a multi-head attention framework for cancer survival prediction, named MHAttnSurv, was introduced, designed to work with whole slide images (WSIs) without the need for region-of-interest (ROI) annotations. In the MHAttnSurv framework, a backbone ResNet model is employed to extract features from randomly sampled WSI patches. These features are subsequently projected into values and keys, which are segmented into several chunks along with a learnable query vector. Within each chunk, parallel attention processes work concurrently to pinpoint discriminative regions, and the results from each attention map are concatenated to facilitate survival prediction.
+% MHAttnSurv 没有预训练模型
+Inspired by the potent multi-head attention mechanism initially introduced in the transformer\cite{jiang2023mhattnsurv} model, the researchers innovatively adapted this mechanism to function efficiently in the realm of multiple instance learning. 
+Specifically, the transformer model's core function is to learn context-sensitive representations for every element within an input sequence. 
+However, this necessitates attention between every pair of elements, leading to a quadratic increase in computational cost with longer input sequences. 
+In the case of the prognostic information extraction task, the sole focus is on the global representation of the input sequence. 
+This allowed the elimination of computationally intensive pairwise attentions among the input sequence, retaining only the relevant attentions between global queries and local keys. 
+This modification effectively ensures that computational costs scale linearly with input length. 
+Building upon this innovation, a multi-head attention framework for cancer survival prediction, named MHAttnSurv, was introduced, designed to work with whole slide images (WSIs) without the need for region-of-interest (ROI) annotations. 
+In the MHAttnSurv framework, a backbone ResNet model is employed to extract features from randomly sampled WSI patches. 
+These features are subsequently projected into values and keys, which are segmented into several chunks along with a learnable query vector. 
+Within each chunk, parallel attention processes work concurrently to pinpoint discriminative regions, and the results from each attention map are concatenated to facilitate survival prediction.
 
-% Surformer
-This study proposes an innovative MIL neural network termed pattern-perceptive survival transformer (Surformer) for WSI-based survival analysis. Briefly, Surformer comprises three components: a ratio-reserved cross-attention module (RRCA), a multi-head selfattention module (MHSA) [24], and a multi-head cross-attention module (MHCA). RRCA simultaneously detects global features and multiple pattern-specific local features through a learnable global prototype pglobal and multiple local prototypes plocals and quantifies the patches correlative to each plocals in the form of ratio factors (rfs). The ratio information is subsequentially embedded into the feature space for representation enhancement. 
-
-% WSI-HSfeatures
-They proposed a survival prediction method \cite{li2023novel} based on tissue pathology and tissue region features extracted from WSIs. Use the DeepConvSurv model to extract histopathological features from plaques of actual tissue types (tumors, lymphocytes, stroma, and mucus), and extract tissue region features from the tissue map of WSI by using image processing techniques to locate and quantify tissue regions (tumors, cells, and stroma). Firstly, this method uses the DeepConvSurv model to extract the histopathological features of tumors, lymphocytes, stroma, and mucus. Secondly, by evaluating the area and proportion of tumors, lymphocytes, and stroma, tissue area features are retrieved from the tissue map. Thirdly, we use the extracted histopathological and tissue regional features to predict patient risk using six survival models.
-
-
-% graphLsurv
+% Surformer 没有预训练模型
+This study proposes an innovative MIL neural network termed pattern-perceptive survival transformer (Surformer) for WSI-based survival analysis. 
+Briefly, Surformer comprises three components: a ratio-reserved cross-attention module (RRCA), a multi-head selfattention module (MHSA) [24], and a multi-head cross-attention module (MHCA). 
+RRCA simultaneously detects global features and multiple pattern-specific local features through a learnable global prototype pglobal and multiple local prototypes plocals and quantifies the patches correlative to each plocals in the form of ratio factors (rfs). 
+The ratio information is subsequentially embedded into the feature space for representation enhancement. 
 
 % advmil GAN 对抗性
-Inspired by GAN\cite{goodfellow2014generative} and other applications other than image generation\cite{}, the author proposes a new framework for survival analysis of gigabit pixel entire slide images, called Adversarial Multiple Instance Learning (AdvMIL). This framework no longer relies on the classical paradigm of event time modeling; On the contrary, it is based on event modeling for adversarial time and integrates multi instance learning required for WSI representation learning. The AdvMIL framework is based on event modeling for adversarial time and combined with MIL for WSI representation learning. The paradigm combining GAN and MIL is implemented through an RLIP (Region Level Instance Projection), which can be used to implement discriminators for WSI survival analysis through fusion networks.
+Inspired by GAN\cite{goodfellow2014generative} and other applications other than image generation\cite{}, the author proposes a new framework for survival analysis of gigabit pixel entire slide images, called Adversarial Multiple Instance Learning (AdvMIL). 
+This framework no longer relies on the classical paradigm of event time modeling; On the contrary, it is based on event modeling for adversarial time and integrates multi instance learning required for WSI representation learning. 
+The AdvMIL framework is based on event modeling for adversarial time and combined with MIL for WSI representation learning.
+The paradigm combining GAN and MIL is implemented through an RLIP (Region Level Instance Projection), which can be used to implement discriminators for WSI survival analysis through fusion networks.
 
 Unlike prior studies that pick and choose specific regions of interest (ROIs) from whole-slide images (WSIs) for survival analysis, new method can utilize the complete tissue and tumor micro-environment without the need for detailed annotations within WSIs. 
 Additionally, it can seamlessly incorporate multiple diagnostic slides of various dimensions from a single patient sample for both training and inference in a unified framework.
+\subsubsection{Discussion}
 
 \subsection{Multimodal}
 One limitation for some existing survival models is that they initially focus on one modality and cannot sufficiently handle multi-modalities data. 
@@ -390,8 +448,10 @@ This necessitates the modeling of interactions over medium to long distances amo
 While it is commonly tackled as a weakly-supervised problem utilizing solely gigapixel Whole Slide Images (WSIs), the conventional perspective on survival outcome prediction views it as a multi-modal learning task.
 Due to the variant costs and trauma degree of multi-omics examination, the scenarios of missing modalities are very common.  
 
+\subsubsection{Molecular Data}
 % LUNG CANCER SURVIVAL PREDICTION
-The model in \cite{zhu2016lung} gets the features from the pathological images extracted using Cellprofiler\cite{lamprecht2007cellprofiler} from the image tiles in ROIs,namely geometry, texture, holistic features.In addition,the model uses the preprocessed genetic data and one feature selection operation SPACE\cite{peng2009partial} to select representative features to integrate data for the principal component regression model for survival prediction.
+The model in \cite{zhu2016lung} gets the features from the pathological images extracted using Cellprofiler\cite{lamprecht2007cellprofiler} from the image tiles in ROIs, namely geometry, texture, holistic features.
+In addition,the model uses the preprocessed genetic data and one feature selection operation SPACE\cite{peng2009partial} to select representative features to integrate data for the principal component regression model for survival prediction.
 The experiments focusing on ADC lung cancer revealed that the results could be better than only using data of genes or images, which demonstrated that the genetic data could actually enhance the prediction performance of the survival analysis model to some extent.
 
 % DeepCorrSurv
@@ -415,40 +475,6 @@ The baseline algorithms used that time for comparison includes LASSSO-Cox\cite{t
 Additionally, two independent models named GMKL and PMKL was constructed only adopting genomic data or pathological images data and four single dimensional models using four types of genomic data were also built. 
 Subsequently, the results showed that the gene expression and protein information play relatively more important role than others and CNA makes a little contribution to holistic prediction accuracy.
 
-% MultimodalPrognosis
-In the model proposed in \cite{cheerla2019deep} named MultimodalPrognosis, clinical, genomic and WSI images data are processed by FC layers, deep highway networks\cite{srivastava2015highway}, the SqueezeNet architecture\cite{iandola2016squeezenet} separately.
-The architecture except SqueezeNet is demonstrated in fig.\ref{multimodalprognosis}.
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\linewidth]{img/multimodalprognosis.png}
-    \caption{the framework of multimodalprognosis(image from \cite{cheerla2019deep})}
-    \label{multimodalprognosis}
-\end{figure}
-The microRNA data is also passed through deep highway networks discussed. 
-One notable problem about the microRNA and clinical data is the missing data.
-However, the function of the highway networks dose not stand out without comparison with other methods in the paper.
-Then, the similarity loss(Eq.\ref{multimodalprognosis-1}-Eq.\ref{multimodalprognosis-3}) is used to train the model to recognize the patient-distinguishing patterns and correspond the data from different modality to generate associated representations. 
-\begin{equation}\label{multimodalprognosis-1}
-    sim_0(x,y)=\sum_{i,j\in\mathrm{mod}\text{alities}} \frac { \hat { h }_{0,i}(x_i)\cdot\hat{h}_{0,j}(y_j)}{|\hat{h}_{\theta,i}(x_i)||\hat{h}_{\theta,j}(y_j)|}
-\end{equation}
-
-\begin{equation}\label{multimodalprognosis-2}
-    L_\theta(x,y)=\max(0,M-sim_0(x,y)+sim_0(x,x))
-\end{equation}
-
-\begin{equation}\label{multimodalprognosis-3}
-    l_{sim}(\theta)=\sum_{x,y}L_{\theta}(x,y)
-\end{equation}
-The model aggregates the similarity loss for each pair of modalities that are available.
-In the above expression, $x_i$ represents the data for modality $i$, and $h_{\theta i}$ denotes the predictive model for modality $i$. 
-It's important to note that the parameter $M$ regulates the 'tightness' of the clustering. 
-A higher value of $M$ allows feature vectors for a given patient to be relatively different, as long as they remain similar to a certain extent. 
-Conversely, a lower value of $M$ compels feature vectors for a patient to be much closer together, which is generally more desirable but may lead to mode collapse. 
-This loss is calculated for every pair of patients in a batch. 
-Consequently, the unsupervised model could discern crucial, patient-distinguishing patterns in both genomic and image data. 
-Thus, the final loss function is composed of cox loss and similarity loss in the unsupervised model.
-The multi-modal dropout was also invented that is dropping whole feature vectors of each modality and accordingly increase the weights of other modalities to build robust representations.
-The solution above was then validated in the experiments including visualizing the encodings of the pancancer patient cohort and calculating the C-index values and the results also demonstrated the essence of the adopted modalities.
 
 % OSCCA
 One more variation usually ignored is the ordinal relationship among the survival time of different patients, which is assumed independent among patients.
@@ -469,25 +495,6 @@ The validation experiments demonstrated that the new model even had superior str
 To make comparison, the SGSCCA model was proposed with the same objective function without ordered survival information.
 However, the feature pre-selection strategy is based on the median value, which is too arbitrary to consider the accurate relevance between features and cancer type.
 Also, the image features relies on the regions of interest annotated by pathologists.
-
-% PAGE-Net；gpt
-This model in \cite{hao2019page} has a two-stage feature extraction process used in a deep learning model for pathology-specific layers. 
-In the first stage, a pre-trained convolution neural network (CNN) is used to identify survival-discriminative features in patches of pathological images. 
-These features are obtained through dilated convolution layers and max-pooling. 
-In the second stage, global survival-discriminative features for a whole slide image (WSI) are generated by aggregating feature scores from multiple patches. 
-A two-stage pooling approach, including 3-norm pooling, is used to rank and aggregate the most important features and patches. 
-The resulting vector of aggregated survival-discriminative features represents a WSI for a patient, contributing to the integrative deep learning model.
-The genome and demography-specific layers in this model are adapted from the Cox-PASNet\cite{hao2018cox}, which is a pathway-based sparse deep neural network. 
-The genome-specific layers consist of a gene layer, a pathway layer, and two hidden layers (H1 and H2). 
-The gene layer serves as an input layer for gene expression data, with each node representing a gene. 
-The pathway layer incorporates prior biological knowledge from databases like KEGG for biological interpretation. 
-Connections between the gene layer and pathway layer are established based on biological pathway databases, with pathway nodes representing specific biological pathways. 
-The two hidden layers capture nonlinear and hierarchical relationships between the pathways.
-Clinical patient data are integrated into the demography-specific layer and combined with genomic features from gene expressions and aggregated survival-discriminative features from pathological images in the final hidden layer of the integrative model. 
-To address overfitting in deep learning models with high-dimensional, low-sample-size data, the training technique from Cox-PASNet is applied. 
-Instead of training the entire network, small networks are randomly selected, and sparse coding is used to create sparse connections for model interpretability. 
-Training continues until convergence, with validation data used to monitor errors and prevent overfitting through early stopping.
-PAGE-Net statistically outperformed Cox-EN with histopathological images only and Cox-PASNet with genomic data only. 
 
 % Pathomic Fusion
 In the model proposed in \cite{chen2020pathomic}, the cell graphs from histology images are supposed to get the cell-to-cell interactions and cell neighborhood structure.
@@ -513,15 +520,6 @@ Different from the normal self-attention in Transformer, the noisy genomic nodes
 The GPDBN framework in \cite{wang2021gpdbn} comprises an inter-modality bilinear feature encoding module (Inter-BFEM) and two intra-modality bilinear feature encoding modules (Intra-BFEMs) to efficiently handle information interactions both across and within genomic data and pathological images.
 This work needs further more data to enhance prognostic performance.
 
-% MultiSurv
-Similar to \cite{cheerla2019deep}, the model in \cite{vale2021long} can process the missing data including tabular clinical data (herein simply referred to as "clinical"), gene expression ("mRNA"), microRNA expression(miRNA), DNA methylation(DNAm), gene copy number variation(CNV) data and WSI.
-If some patients loss the whole modality data, they will be excluded when training the model using uni-modal data.
-And the missing data will be replaced by zero matrix when training the multi-modal model.
-To avoid over-fitting, the model has the mechanism to select some patients randomly and replace their specific modality data with zero input.
-The t-SNE visualization reveals that patients with different cancer types occupy distinct clusters in a two-dimensional space, aligning well with known cancer type prognosis.
-The model is trained end-to-end and delivers non-proportional outputs, achieving accurate long-term predictions across various cancer entities. 
-Clinical data is identified as the most informative unimodal data modality.
-
 % MCAT
 Inspired by methods in Visual Question Answering (VQA), the model in \cite{chen2021multimodal} introduces new approach to let histology patches attend to genes in the survival prediction.
 Unlike late fusion-based architectures that simply concatenate WSI-level bag representations with genomic features, the genomic-guided co-attention(GCA) layer captures multi-modal interactions, connecting histology-based visual concepts with gene embeddings, similar to the approach used in VQA.  
@@ -529,15 +527,6 @@ These interactions are visualized as attention heatmaps at the WSI level for eac
 Additionally, the GCA layer reduces the effective "sequence length" of WSI bags from M instance-level patch features to N gene-guided visual concepts, where N represents the effective sequence length of gene embeddings (with M > N). 
 This reduction enables more advanced feature aggregation techniques using self-attention and Transformers, allowing for supervision with entire WSIs, which was previously unattainable.
 One limitation of the research was that they utilized a gene set that had been curated previously, and it contained genes with overlapping biological functional impact.
-
-% PG-TFNet
-The PG-TFNet proposed in \cite{lv2021pg} comprises three modules: a transformer-based multi-scale pathological feature fusion module, a cross-attention transformer-based multi-modal feature fusion module, and a final Cox layer for clinical data integration. 
-The multi-scale feature fusion module processes pathological images at different magnification levels using transformer encoders, capturing relationships between image patches. 
-The feature vectors from various magnification levels are concatenated, and a learnable class token and fixed positional encoding vector are introduced to create a multi-scale feature sequence. 
-The multi-scale feature sequence is then input into a stack of transformer encoders for multi-scale feature fusion. 
-This approach enables the extraction of morphological features at various field-of-view scales, improving the model's ability to understand the relationships between image patches.
-The model utilizes a cross-attention transformer module to integrate pathological and genomic data. 
-This module combines feature representations from both data types, enabling effective multi-modal data fusion for improved analysis of cancer prognosis.
 
 % HFBSurv
 To overcome the limitation of Kronecker product, HFBSurv extended GPDBN\cite{wang2021gpdbn} mentioned with the factorized bilinear model.
@@ -572,15 +561,78 @@ PONET proposed in \cite{qiu2023deep} uses a sparse biological pathway-informed e
 Getting each uni-modal fusion, the model can use the output representations as the input of the bimodal and tri-modal fusion respectively utilizing the bimodal attention and tri-modal attention.
 Finally the model is trained through the Cox partial likelihood loss proposed by \cite{cheerla2019deep} used for the multi-modalities survival prediction to get the prediction results.
 
-% HGCN
-The model in \cite{hou2023hybrid} introduces multi-modal graphs as a foundation for a novel Hypergraph Convolution Network (HGCN) designed to extract prognostic-related information. 
-The HGCN employs a node message passing mechanism for intra-modal interactions and a hyperedge mixing module for advanced modal interaction. 
-Survival predictions were made by combining modalities using an online Multi-view Autoencoder (MAE) proposed in \cite{he2022masked} paradigm during model inference.
-The research systematically explored the robustness of the multimodal survival prediction model, addressing an overlooked clinical challenge. 
-To handle missing modalities, an online MAE method captures intrinsic dependencies and generates hyperedges. 
-Several techniques are employed for handling missing modalities, including zero padding, multimodal factorized method (MFM) for reconstruction, autoencoders \cite{tran2017missing} \cite{liu2021incomplete}, and a lower-bound approach without the online MAE.
-The experiments showed that the online MAE module played a key role in improving the prediction robustness.
-The study underscored the potential of masked signal modeling for self-supervised learning across different scientific domains.
+\subsubsection{Clinical Data}
+% MultimodalPrognosis
+In the model proposed in \cite{cheerla2019deep} named MultimodalPrognosis, clinical, genomic and WSI images data are processed by FC layers, deep highway networks\cite{srivastava2015highway}, the SqueezeNet architecture\cite{iandola2016squeezenet} separately.
+The architecture except SqueezeNet is demonstrated in fig.\ref{multimodalprognosis}.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{img/multimodalprognosis.png}
+    \caption{the framework of multimodalprognosis(\cite{cheerla2019deep})}
+    \label{multimodalprognosis}
+\end{figure}
+The microRNA data is also passed through deep highway networks discussed. 
+One notable problem about the microRNA and clinical data is the missing data.
+However, the function of the highway networks dose not stand out without comparison with other methods in the paper.
+Then, the similarity loss(Eq.\ref{multimodalprognosis-1}-Eq.\ref{multimodalprognosis-3}) is used to train the model to recognize the patient-distinguishing patterns and correspond the data from different modality to generate associated representations. 
+\begin{equation}\label{multimodalprognosis-1}
+    sim_0(x,y)=\sum_{i,j\in\mathrm{mod}\text{alities}} \frac { \hat { h }_{0,i}(x_i)\cdot\hat{h}_{0,j}(y_j)}{|\hat{h}_{\theta,i}(x_i)||\hat{h}_{\theta,j}(y_j)|}
+\end{equation}
+
+\begin{equation}\label{multimodalprognosis-2}
+    L_\theta(x,y)=\max(0,M-sim_0(x,y)+sim_0(x,x))
+\end{equation}
+
+\begin{equation}\label{multimodalprognosis-3}
+    l_{sim}(\theta)=\sum_{x,y}L_{\theta}(x,y)
+\end{equation}
+The model aggregates the similarity loss for each pair of modalities that are available.
+In the above expression, $x_i$ represents the data for modality $i$, and $h_{\theta i}$ denotes the predictive model for modality $i$. 
+It's important to note that the parameter $M$ regulates the 'tightness' of the clustering. 
+A higher value of $M$ allows feature vectors for a given patient to be relatively different, as long as they remain similar to a certain extent. 
+Conversely, a lower value of $M$ compels feature vectors for a patient to be much closer together, which is generally more desirable but may lead to mode collapse. 
+This loss is calculated for every pair of patients in a batch. 
+Consequently, the unsupervised model could discern crucial, patient-distinguishing patterns in both genomic and image data. 
+Thus, the final loss function is composed of cox loss and similarity loss in the unsupervised model.
+The multi-modal dropout was also invented that is dropping whole feature vectors of each modality and accordingly increase the weights of other modalities to build robust representations.
+The solution above was then validated in the experiments including visualizing the encodings of the pancancer patient cohort and calculating the C-index values and the results also demonstrated the essence of the adopted modalities.
+
+% PAGE-Net；gpt
+This model in \cite{hao2019page} has a two-stage feature extraction process used in a deep learning model for pathology-specific layers. 
+In the first stage, a pre-trained convolution neural network (CNN) is used to identify survival-discriminative features in patches of pathological images. 
+These features are obtained through dilated convolution layers and max-pooling. 
+In the second stage, global survival-discriminative features for a whole slide image (WSI) are generated by aggregating feature scores from multiple patches. 
+A two-stage pooling approach, including 3-norm pooling, is used to rank and aggregate the most important features and patches. 
+The resulting vector of aggregated survival-discriminative features represents a WSI for a patient, contributing to the integrative deep learning model.
+The genome and demography-specific layers in this model are adapted from the Cox-PASNet\cite{hao2018cox}, which is a pathway-based sparse deep neural network. 
+The genome-specific layers consist of a gene layer, a pathway layer, and two hidden layers (H1 and H2). 
+The gene layer serves as an input layer for gene expression data, with each node representing a gene. 
+The pathway layer incorporates prior biological knowledge from databases like KEGG for biological interpretation. 
+Connections between the gene layer and pathway layer are established based on biological pathway databases, with pathway nodes representing specific biological pathways. 
+The two hidden layers capture nonlinear and hierarchical relationships between the pathways.
+Clinical patient data are integrated into the demography-specific layer and combined with genomic features from gene expressions and aggregated survival-discriminative features from pathological images in the final hidden layer of the integrative model. 
+To address overfitting in deep learning models with high-dimensional, low-sample-size data, the training technique from Cox-PASNet is applied. 
+Instead of training the entire network, small networks are randomly selected, and sparse coding is used to create sparse connections for model interpretability. 
+Training continues until convergence, with validation data used to monitor errors and prevent overfitting through early stopping.
+PAGE-Net statistically outperformed Cox-EN with histopathological images only and Cox-PASNet with genomic data only. 
+
+% MultiSurv
+Similar to \cite{cheerla2019deep}, the model in \cite{vale2021long} can process the missing data including tabular clinical data (herein simply referred to as "clinical"), gene expression ("mRNA"), microRNA expression(miRNA), DNA methylation(DNAm), gene copy number variation(CNV) data and WSI.
+If some patients loss the whole modality data, they will be excluded when training the model using uni-modal data.
+And the missing data will be replaced by zero matrix when training the multi-modal model.
+To avoid over-fitting, the model has the mechanism to select some patients randomly and replace their specific modality data with zero input.
+The t-SNE visualization reveals that patients with different cancer types occupy distinct clusters in a two-dimensional space, aligning well with known cancer type prognosis.
+The model is trained end-to-end and delivers non-proportional outputs, achieving accurate long-term predictions across various cancer entities. 
+Clinical data is identified as the most informative unimodal data modality.
+
+% PG-TFNet
+The PG-TFNet proposed in \cite{lv2021pg} comprises three modules: a transformer-based multi-scale pathological feature fusion module, a cross-attention transformer-based multi-modal feature fusion module, and a final Cox layer for clinical data integration. 
+The multi-scale feature fusion module processes pathological images at different magnification levels using transformer encoders, capturing relationships between image patches. 
+The feature vectors from various magnification levels are concatenated, and a learnable class token and fixed positional encoding vector are introduced to create a multi-scale feature sequence. 
+The multi-scale feature sequence is then input into a stack of transformer encoders for multi-scale feature fusion. 
+This approach enables the extraction of morphological features at various field-of-view scales, improving the model's ability to understand the relationships between image patches.
+The model utilizes a cross-attention transformer module to integrate pathological and genomic data. 
+This module combines feature representations from both data types, enabling effective multi-modal data fusion for improved analysis of cancer prognosis.
 
 % DeepCoxSC
 This study in \cite{wei2023survival} developed a deep learning-based prognostic model, called MultiDeepCox-SC, for predicting survival outcomes in stomach cancer patients. 
@@ -591,6 +643,17 @@ The risk score generated by the MultiDeepCox-SC model remained an independent pr
 The study also validated the model's performance on external datasets. 
 The proposed fully automated prognostic tool based on histopathological images, clinical data, and gene expression data has the potential to improve pathologists' efficiency and accuracy and aid clinicians in selecting appropriate therapies. 
 
+% HGCN
+The model in \cite{hou2023hybrid} introduces multi-modal graphs as a foundation for a novel Hypergraph Convolution Network (HGCN) designed to extract prognostic-related information. 
+The HGCN employs a node message passing mechanism for intra-modal interactions and a hyperedge mixing module for advanced modal interaction. 
+Survival predictions were made by combining modalities using an online Multi-view Autoencoder (MAE) proposed in \cite{he2022masked} paradigm during model inference.
+The research systematically explored the robustness of the multimodal survival prediction model, addressing an overlooked clinical challenge. 
+To handle missing modalities, an online MAE method captures intrinsic dependencies and generates hyperedges. 
+Several techniques are employed for handling missing modalities, including zero padding, multimodal factorized method (MFM) for reconstruction, autoencoders \cite{tran2017missing} \cite{liu2021incomplete}, and a lower-bound approach without the online MAE.
+The experiments showed that the online MAE module played a key role in improving the prediction robustness.
+The study underscored the potential of masked signal modeling for self-supervised learning across different scientific domains.
+
+\subsubsection{Discussion}
 
 \subsection{Graph Neural Network}
 The extremely high gigapixel resolution of Whole Slide Images (WSI) requires researchers to divide them into smaller patches for analysis. Most of the previous work has primarily centered around aggregating images based on patches. But based on\cite{levy2020topological}, these methods may also overlook the crucial context between image patches and their neighbors for accurate predictions. Graphs are mathematical models depicting connections between pairs of elements. They are particularly effective for illustrating relationships between individual patches within a Whole Slide Image based on their spatial proximity or correlation. Currently, in risk prediction based on GNN through WSI images, many researchers have also achieved state-of-the-art results.
@@ -609,7 +672,7 @@ Chen\cite{chen2020pathomic} utilized a Graph Convolutional Network (GCN) approac
 \begin{figure}
     \centering
     \includegraphics[width=0.8\linewidth]{img/pathomic.png}
-    \caption{the framework of \cite{chen2020pathomic}}
+    \caption{the framework of Pathomic Fusion\cite{chen2020pathomic}}
     \label{pathomic}
 \end{figure}
 
@@ -693,12 +756,25 @@ main points of the paper, do not replicate the abstract as the conclusion.
 A conclusion might elaborate on the importance of the work or suggest 
 applications and extensions.
 \subsection{Challenges}
+Predicting patient survival using Whole Slide Imaging (WSI) data presents several intricate challenges. The foremost challenge lies in the high-dimensional nature of WSI, where the images' high resolution results in a multitude of features. Managing such complexity requires sophisticated preprocessing, including resolution adjustment, color normalization, and the identification of relevant regions of interest. Extracting meaningful features from WSI, while preserving crucial spatial information, poses a formidable task, as does balancing computational efficiency with informativeness.
 
+Additionally, obtaining accurate survival annotations for each patient is a resource-intensive process, often involving the expertise of pathologists and introducing potential variability. The interpatient variability within the same cancer type further complicates matters, demanding models that can discern nuanced tissue characteristics. Moreover, interpreting the predictions of models trained on WSI data is challenging, as understanding the contribution of specific image features to survival outcomes is crucial for clinical acceptance.
+
+The computational demands of analyzing large-scale WSI datasets are substantial, necessitating significant resources for training and evaluation. Integrating WSI with other modalities, such as genomics or clinical data, requires specialized techniques to harmonize diverse data types for a comprehensive survival prediction model. Effective handling of censored data in survival datasets, where the event of interest has not occurred by the study's end, is vital for model accuracy.
+
+Furthermore, ensuring that WSI-based survival prediction models generalize well across different cancer types is a critical consideration. Robust models capable of accommodating variations in tissue characteristics across various cancers are essential. In summary, addressing these challenges necessitates an interdisciplinary approach that combines expertise in pathology, image analysis, and statistical modeling. Successfully navigating these complexities is pivotal for realizing the full potential of WSI in enhancing clinical decision-making and predicting patient prognosis.
 \subsection{Future Prospects}
+The future prospects of leveraging Whole Slide Imaging (WSI) for survival prediction are poised to revolutionize clinical research and patient care. One key avenue for exploration is the integration of WSI into the framework of precision medicine, facilitating personalized treatment strategies based on unique characteristics observed in digital pathology images. Advancements in feature extraction techniques, potentially employing deep learning architectures, promise to capture intricate patterns that serve as robust indicators of patient prognosis.
 
+The future trajectory also envisions the convergence of WSI with other multimodal data sources, such as genomics and clinical records, offering a comprehensive understanding of the patient's condition for more accurate survival predictions. Ensuring the interpretability of AI models applied to WSI is a critical focus, with future developments aiming at creating explainable AI techniques that enhance clinical trust in decision-making processes.
 
+As computational power continues to advance, the possibility of real-time decision support systems based on WSI for clinicians during diagnostics and treatment planning emerges as an exciting frontier. Large-scale collaborative studies, pooling WSI data from diverse healthcare institutions, are anticipated to lead to more robust models with improved generalization across varied patient populations.
 
+Adopting lifelong learning approaches for WSI models is another prospective area, allowing continuous adaptation to evolving data patterns and ensuring sustained accuracy in survival predictions over time. Ethical considerations and regulatory frameworks are expected to gain prominence to govern the responsible and transparent use of WSI data in clinical decision-making.
 
+Interactive visualization tools tailored for pathologists and clinicians may become pivotal, enabling exploration and validation of WSI-based survival predictions in a user-friendly manner. Furthermore, a shift towards incorporating patient-reported outcomes and preferences into WSI-based survival models reflects a commitment to a more patient-centric approach to treatment planning and prognostication.
+
+In essence, the future of using WSI for survival prediction is characterized by technological advancements, increased collaboration, improved interpretability, and a steadfast commitment to ethical and patient-centered practices, collectively reshaping the landscape of digital pathology in healthcare.
 
 \appendices
 
@@ -715,13 +791,6 @@ to the supplementary files where appropriate within the manuscript text using fo
 Further instructions on footnote usage are in the Footnotes section on the next page.}
 
 \section*{Acknowledgment}
-The preferred spelling of the word ``acknowledgment'' in American English is 
-without an ``e'' after the ``g.'' Use the singular heading even if you have 
-many acknowledgments. Avoid expressions such as ``One of us (S.B.A.) would 
-like to thank $\ldots$ .'' Instead, write ``F. A. Author thanks $\ldots$ .'' In most 
-cases, sponsor and financial support acknowledgments are placed in the 
-unnumbered footnote on the first page, not here.
-
 % \bibliographystyle{plainnat}
 \bibliography{ref}
 \bibliographystyle{unsrt}
