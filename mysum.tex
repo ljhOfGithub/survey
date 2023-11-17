@@ -45,21 +45,49 @@ Cancer survival analysis,Cancer survival prediction,deep learning,whole slide im
 \label{sec:introduction}
 % motivation 添加 
 
-Survival prediction is a direction of statistics for analyzing the duration time that is expected until the events of interest occur,such as the death of the life form of biology.
-% 癌症是当前人类面临的最大的健康危机之一，包括各种类型的癌症，乳腺癌，肠胃癌，肺癌等等。临床领域为了减少癌症的危害，可以通过使用wsi类型的切片，由anatomic pathologists使用haematoxylin and eosin (H&E)方法染色的一种组织切片，进行生存预测。生存预测的使用能使得临床医生能够更好地了解患者病情，给出更好的治疗方案，因此能够提高患者的存活率和存活年限。
-With the rising importance of precision medicine, the ability to predict patient survival based on individualized characteristics becomes paramount.  WSI, as a rich source of information, offers an unprecedented level of granularity by capturing the heterogeneity within tissue samples. By enabling the high-resolution digitization of entire tissue slides, WSI has not only enhanced the efficiency and accuracy of pathological assessments but has also opened new avenues for predictive modeling and survival analysis.
+
+Pathological diagnosis is made by human pathologists using a microscope to observe stained specimens on a slide. In recent years, people have attempted to capture the entire slide using scanners and save it as a digital image (whole slide image, WSI) \cite{pantanowitz2010digital}. The development and improvement of artificial intelligence and machine learning algorithms is a research hotspot in the field of pathology automation or computer-aided diagnosis. WSI is a promising tool for developing and utilizing such algorithms for diagnosing pathology\cite{kumar2020whole}. 
+%病理诊断是由人类病理学家使用显微镜观察载玻片上的染色标本进行的。近年来，人们试图使用扫描仪捕捉整张幻灯片，并将其保存为数字图像（整张幻灯片图像，WSI）人工智能和机器学习算法的发展和改进是病理学自动化或计算机辅助诊断领域的研究热点。WSI是开发和利用此类算法诊断病理学的一种很有前途的工具。
+
+Traditionally, pathological assessments have been reliant on manual inspection and subjective interpretation of glass slides under a microscope. While this approach has served as the gold standard for disease diagnosis and prognosis, it is inherently limited by issues of inter-observer variability, labor intensiveness, and the inability to harness the full potential of the vast data embedded in tissue structures.These digital representations of tissue hold a wealth of information that extends far beyond what can be appreciated by the human eye\cite{yala2021toward}.For example, the complexity of certain high-dimensional data patterns poses difficulties for doctors to manually interpret multimodal biomedical data\cite{gevaert2006predicting}. The advent of WSI has paved the way for a paradigm shift in tissue analysis. Through high-resolution digitization, WSI generates massive datasets of tissue samples, allowing for a more detailed examination of cellular structures, tissue morphology, and spatial relationships. 
+
+%传统上，病理学评估依赖于显微镜下对载玻片的手动检查和主观解释。虽然这种方法已成为疾病诊断和预后的黄金标准，但它本身就受到观察者间变异性、劳动强度以及无法充分利用组织结构中嵌入的大量数据潜力等问题的限制。这些组织的数字表示包含了丰富的信息，远远超出了人眼所能理解的范围。例如，某些高维数据模式的复杂性给医生手动解释多模式生物医学数据带来了困难。WSI的出现为组织分析的范式转变铺平了道路。通过高分辨率数字化，WSI生成了大量组织样本数据集，从而可以更详细地检查细胞结构、组织形态和空间关系。
+
+
+The introduction of WSI has given researchers and clinicians access to vast repositories of image data, offering new opportunities for feature extraction, machine learning, and deep learning techniques to model and predict patient survival. The ability to analyze tissue morphology, cellular structures, and patterns within whole slide images has the potential to uncover valuable insights into disease progression and prognosis.With the accumulation of WSI data samples, a large amount of work has been done using deep learning algorithms to analyze WSI, including tasks such as image classification, segmentation, and auxiliary diagnosis.
+%WSI的引入使研究人员和临床医生能够访问大量的图像数据库，为特征提取、机器学习和深度学习技术建模和预测患者生存提供了新的机会。在整张幻灯片图像中分析组织形态、细胞结构和模式的能力有可能揭示对疾病进展和预后的有价值的见解。随着WSI数据样本的积累，使用深度学习算法分析WSI已经做了大量工作，包括图像分类、分割和辅助诊断等任务。
+
+In addition, one of the most eye-catching applications of WSI lies in the field of survival prediction, especially in the context of cancer. Cancer remains the main cause of global death, including various types of cancer, cancer, gastrointestinal cancer, cancer, etc. In the clinical field, accurate survival prediction can enable clinical doctors to better understand the patient's condition, provide better treatment plans, and thereby improve the patient's survival rate and lifespan. The ability to accurately predict patient prognosis is crucial for optimizing treatment strategies and improving patient care. Through the integration of WSI, researchers and clinical doctors can extract rich image features and use advanced machine learning and deep learning technologies to model and predict patient survival rates.
+%此外，WSI最引人注目的应用之一在于生存预测领域，尤其是在癌症的背景下。癌症仍然是全球死亡的主要原因，包括各种类型的癌症、癌症、胃肠道癌症、癌症等。在临床领域，准确的生存预测可以使临床医生更好地了解患者的病情，提供更好的治疗方案，从而提高患者的生存率和寿命。准确预测患者预后的能力对于优化治疗策略和改善患者护理至关重要。通过WSI的集成，研究人员和临床医生可以提取丰富的图像特征，并使用先进的机器学习和深度学习技术对患者生存率进行建模和预测。
+
+With the increasing importance of precision medicine, the ability to predict patient survival based on individualized characteristics becomes paramount.  WSI, as a rich source of information, offers an unprecedented level of granularity by capturing the heterogeneity within tissue samples. And it adds a wealth of information to enable more sophisticated disease modelling and more individualized treatment planning\cite{bhowmik2022deep}. The capability to extract "sub-visual" image features from digital pathology slide images—features provides an opportunity for more robust quantitative modeling of disease appearance and potentially improved predictions of disease aggressiveness and patient outcomes\cite{madabhushi2016image}. Survival prediction using WSI offers the potential to uncover subtle patterns, biomarkers, and prognostic factors that may have gone unnoticed in traditional pathology assessments.By enabling the high-resolution digitization of entire tissue slides, WSI has not only enhanced the efficiency and accuracy of pathological assessments but has also opened new avenues for predictive modeling and survival analysis.
+% 随着精准医学的重要性日益增加，基于个体化特征预测患者生存率的能力变得至关重要。WSI作为一种丰富的信息来源，通过捕捉组织样本中的异质性，提供了前所未有的粒度水平。它增加了丰富的信息，使更复杂的疾病建模和更个性化的治疗计划成为可能。从数字病理切片图像中提取“亚视觉”图像特征的能力——这些特征为疾病外观的更稳健的定量建模提供了机会，并可能改善对疾病侵袭性和患者结果的预测。通过实现整个组织切片的高分辨率数字化，WSI不仅提高了病理评估的效率和准确性，还为预测建模和生存分析开辟了新的途径。
+
+
+
+
+
+
+This paper comprehensively reviews the existing literature in the field of risk prediction analysis based on WSI. The review focuses on analyzing innovation from the perspectives of methods and functions. The paper investigates different forms of risk prediction, including methods based on convolutional networks, graph neural networks, and attention. The current trends, challenges, and limitations of risk prediction analysis based on WSI were discussed. Finally, the paper summarizes by providing insights into possible future research directions.
+%本文全面回顾了基于WSI的风险预测分析领域的现有文献。本文着重从方法和功能两个角度分析创新。本文研究了不同形式的风险预测，包括基于卷积网络、图神经网络和注意力的方法。讨论了基于WSI的风险预测分析的当前趋势、挑战和局限性。最后，本文对未来可能的研究方向进行了总结。
+
+
+
+%%还未修改、
+
+
+
 
 This review aims to provide a comprehensive overview of the application of WSI in the context of survival prediction. We delve into the intersection of digital pathology and computational methods, exploring how WSI data can be harnessed to predict patient outcomes, especially in the field of oncology.
 
-The introduction of WSI has given researchers and clinicians access to vast repositories of image data, offering new opportunities for feature extraction, machine learning, and deep learning techniques to model and predict patient survival. The ability to analyze tissue morphology, cellular structures, and patterns within whole slide images has the potential to uncover valuable insights into disease progression and prognosis.
-
 In this review, we will examine the key methodologies, challenges, and recent advancements in survival prediction using WSI data. We will also discuss the implications of such predictions on personalized medicine, treatment strategies, and patient care.Additionally, we will explore various aspects of survival prediction using WSI, including the development of novel image features, the utilization of deep learning architectures for image analysis, and the challenges associated with large-scale data management.  We will also consider the ethical and regulatory considerations in implementing such predictive models in clinical practice.
+%在这篇综述中，我们将研究使用WSI数据进行生存预测的关键方法、挑战和最新进展。我们还将讨论这种预测对个性化医疗、治疗策略和患者护理的影响。此外，我们将探索使用WSI进行生存预测的各个方面，包括开发新的图像特征、利用深度学习架构进行图像分析，以及与大规模数据管理相关的挑战。我们还将考虑在临床实践中实施此类预测模型的伦理和监管考虑。
 
 As the fields of digital pathology and computational biology continue to evolve, the integration of WSI into survival analysis represents a promising frontier for improving patient outcomes and advancing our understanding of disease dynamics. This review will serve as a guide for researchers and practitioners interested in leveraging WSI for survival prediction in diverse clinical and research settings.
+%随着数字病理学和计算生物学领域的不断发展，将WSI纳入生存分析是改善患者预后和推进我们对疾病动力学理解的一个有前景的前沿领域。这篇综述将为有兴趣在不同的临床和研究环境中利用WSI进行生存预测的研究人员和从业者提供指南。
 
 
-The complexity of certain data modalities with high dimensionality poses a challenge for physicians in manually interpreting multi-modal biomedical data to decide on treatment and assess prognosis\cite{gevaert2006predicting}. 
-The capability to extract "sub-visual" image features from digital pathology slide images—features provides an opportunity for more robust quantitative modeling of disease appearance and potentially improved predictions of disease aggressiveness and patient outcomes\cite{madabhushi2016image}. 
+
 
 % \section{Background}
 % 癌症风险预测是指对潜在的病人的全切片WSI进行分析，也可以结合病人的其他临床数据，例如年龄、性别等，得出病人直至死亡的存活时间。
@@ -71,13 +99,12 @@ the observation of one patient is either a survival time $(O_i)$ or a censored t
 
 In recent years, the integration of Whole Slide Imaging (WSI) into the realm of survival prediction has emerged as a promising frontier in the fields of digital pathology, oncology, and computational biology. WSI, a revolutionary technology, has transformed the way we analyze tissue samples, providing a comprehensive digital representation of entire pathology slides.
 
-Traditionally, pathological assessments have been reliant on manual inspection and subjective interpretation of glass slides under a microscope. While this approach has served as the gold standard for disease diagnosis and prognosis, it is inherently limited by issues of inter-observer variability, labor intensiveness, and the inability to harness the full potential of the vast data embedded in tissue structures.
 
-The advent of WSI has paved the way for a paradigm shift in tissue analysis. Through high-resolution digitization, WSI generates massive datasets of tissue samples, allowing for a more detailed examination of cellular structures, tissue morphology, and spatial relationships. These digital representations of tissue hold a wealth of information that extends far beyond what can be appreciated by the human eye.
 
-One of the most compelling applications of WSI lies in the realm of survival prediction, particularly in the context of cancer. Cancer remains a leading cause of mortality worldwide, and the ability to predict patient outcomes accurately is paramount for optimizing treatment strategies and improving patient care. With the integration of WSI, researchers and clinicians can extract rich image features and employ advanced machine learning and deep learning techniques to model and predict patient survival.
 
-Survival prediction using WSI offers the potential to uncover subtle patterns, biomarkers, and prognostic factors that may have gone unnoticed in traditional pathology assessments. The granularity and comprehensiveness of WSI data open doors to new avenues of research and personalized medicine, enabling clinicians to tailor treatments to individual patient profiles.
+
+
+ 
 
 In this review, we delve into the intricate interplay between digital pathology and computational methods, exploring how WSI is being harnessed to predict patient survival. We will examine the methodologies, challenges, ethical considerations, and the implications of these predictions on clinical practice.
 
@@ -94,6 +121,10 @@ While the potential is immense, it is not without challenges. The management and
 This review embarks on a journey to explore the multifaceted landscape of survival prediction using WSI. It endeavors to survey the methodologies, showcase the milestones achieved, and address the formidable challenges that lie ahead. In doing so, it aspires to serve as a guiding compass for researchers, pathologists, clinicians, and healthcare stakeholders invested in leveraging the symbiotic relationship between digital pathology and survival prediction.
 
 As we advance in this ever-evolving field, the fusion of digital pathology with survival prediction promises to unravel the intricacies of disease dynamics, enhance patient care, and pave the way for a new era of data-driven medicine.
+
+
+This paper provided a comprehensive review of the existing literature on DL-based image registration. The review focuses on the  innovations from a methodological and functional perspective. Different forms of registration including unsupervised and supervised transformation estimation, as well as deep iterative registration, are examined in this paper. A discussion is provided on the current trends, challenges, and limitations of image registration. This paper concluded by providing insights into the possible directions for future research.
+
 
 \section{FORMULATION OF SURVIVAL PREDICTION}
 \subsection{Survival Analysis}
@@ -113,8 +144,8 @@ Compared with traditional survival analysis, Katzman et al.\cite{jing2019deep} i
 
 \subsection{Measurement Metrics}
 To assess the predictive performances in survival analysis, the ordinary model utilizes the concordance index (C-Index) as the standard evaluation metric, a widely accepted measure for model assessment in survival prediction\cite{steck2007ranking}. 
-For a set of Whole Slide Images (WSIs) from \mathcal{M} patients along with their respective labels, the input data is represented as: \begin{aligned}\mathbb{D}_{in}&=&\{C_1,C_2,...,C_M\},M&\geq&2,\end{aligned}
-The C-Index\cite{heagerty2005survival} is expressed as:
+For a set of Whole Slide Images (WSIs) from \begin{equation}\mathcal{M} \end{equation}patients along with their respective labels, the input data is represented as: \begin{equation} \begin{aligned}\mathbb{D}_{in}&=&\{C_1,C_2,...,C_M\},M&\geq&2,\end{aligned} \end{equation}
+The C-Index\cite{heagerty2005survival} is expressed as: 
 % deepconvsurv的
 % \begin{equation}
 %     C-Index=\frac{\#correctly~ordered~pairs}{\#all~possible~ranking~pairs}
@@ -147,24 +178,6 @@ To evaluate the survival model intuitively, the entire dataset is stratified int
 Survival prediction, a regression problem, involves distinguishing high-hazard and low-hazard patients by adopting a threshold, transforming it into a binary classification task. 
 Positive samples include uncensored patients with survival time under the threshold, while negative samples comprise patients with survival/censored time exceeding the threshold. Additionally, the model's performance is evaluated by plotting the Receiver Operating Characteristic (ROC) curve and calculating the Area Under the ROC Curve (AUC).
 
-\subsection{Graph Construction}
-%Spectral Graph Convolution. 
-
-Furthermore, it has been widely recognized that the topological properties of instances on pathological images are crucial in medical tasks.Graph is widely employed to represent topological structures.
-
-Generally ,we let $G=(V,E)$ denote a graph with nodes $V$ and edges $E.$ We define $X\in\mathbb{R}^{N\times F}$ as a feature matrix of $N$ nodes.A in $V$ with $F$-dimensional features, and $A\in\mathbb{R}^{N\times N}$ as the djacency matrix that holds the graph topology. 
-Given the graph adjacency matrix A, the graph node embedding X is updated by the message passing function defined in $\mathbf{GCN}$. We consider a multi-layer Graph Convolutional Network (GCN) with the following layer-wise propagation rule\cite{kipf2016semi}:
-$$
-H^{(l+1)}=\sigma\Big(\tilde{D}^{-\frac12}\tilde{A}\tilde{D}^{-\frac12}H^{(l)}W^{(l)}\Big)\:.
-$$
- Here, $\tilde{A}=A+I_N$ is the adjacency matrix of the undirected graph $g$ with added self-connections. $I_N$ is the identity matrix, $\tilde{D} _{ii}= \sum _j\tilde{A} _{ij}$ and $W^{( l) }$ is a layer-specific trainable weight matrix. $\sigma(\cdot)$ denotes an activation function, such as the ReLU$( \cdot ) = \max ( 0, \cdot ) .H^{( l) }\in \mathbb{R} ^{N\times D}$ is the matrix of activations in the $l^\mathrm{th}$ layer; $H^{(0)}=X$ . The existing methods for constructing graph on WSI are mainly based on patches and cells.
-
-Graph Construction based on patches : Given a set of sampled patch images $\mathbf{P}=\{\mathbf{P_i}\}$ from WSI, we have to dump those patches from the margin areas which contains few cells, therefore, the cardinality $\|\mathcal{P}\|$ differs by WSI. Consequently, the graphs we construct for WSIs are of different sizes. Given patches as vertices, vertex features are generated by the different feature extractors
-
-
-Graph Construction based on cells :For this method, accurate nuclear segmentation is crucial.For already segmented cell nuclei, Pathomic Fusion\cite{chen2020pathomic} use the $K$-Nearest Neighbors (KNN) algorithm and hypothesize that adjacent cells will have the most significant cell-cell interactions and limit the adjacency matrix to $K$ nearest neighbours. Using KNN, adjacency matrix $A$ is defined as: 
-
-if $j\in $KNN$( i) $ and $D(i,j)<d$  otherwise 0
 
 
 
@@ -183,10 +196,8 @@ $$
 Graph Construction based on patches : Given a set of sampled patch images $\mathbf{P}=\{\mathbf{P_i}\}$ from WSI, we have to dump those patches from the margin areas which contains few cells, therefore, the cardinality $\|\mathcal{P}\|$ differs by WSI. Consequently, the graphs we construct for WSIs are of different sizes. Given patches as vertices, vertex features are generated by the different feature extractors
 
 
-Graph Construction based on cells :For this method, accurate nuclear segmentation is crucial.For already segmented cell nuclei, Pathomic Fusion\cite{chen2020pathomic} use the $K$-Nearest Neighbors (KNN) algorithm and hypothesize that adjacent cells will have the most significant cell-cell interactions and limit the adjacency matrix to $K$ nearest neighbours. Using KNN, adjacency matrix $A$ is defined as: 
-
-if $j\in $KNN$( i) $ and $D(i,j)<d$  otherwise 0
-
+Graph Construction based on cells :For this method, accurate nuclear segmentation is crucial.For already segmented cell nuclei, Pathomic Fusion\cite{chen2020pathomic} use the $K$-Nearest Neighbors (KNN) algorithm and hypothesize that adjacent cells will have the most significant cell-cell interactions and limit the adjacency matrix to $K$ nearest neighbours. Using KNN, adjacency matrix $A$ is defined as : 
+$$\left.A_{ij}\left\{\begin{array}{ll}1&\quad\text{if }j\in\text{KNN}(i)\text{ and }D(i,j)<d\\0&\quad\text{otherwise}\end{array}\right.\right.$$
 
 
 
