@@ -3,6 +3,15 @@
     "editor.wordWrap": "on",
     "latex-workshop.latex.recipes": [
         {
+            "name": "xelatex ➞ bibtex ➞ xelatex*2",
+            "tools": [
+                "xelatex",
+                "bibtex",
+                "xelatex",
+                "xelatex"
+            ]
+        },
+        {
             "name": "pdflatex ➞ bibtex ➞ pdflatex * 2",
             "tools": [
                 "pdflatex",
@@ -15,15 +24,6 @@
             "name": "pdflatex",
             "tools": [
                 "pdflatex"
-            ]
-        },
-        {
-            "name": "xelatex ➞ bibtex ➞ xelatex*2",
-            "tools": [
-                "xelatex",
-                "bibtex",
-                "xelatex",
-                "xelatex"
             ]
         },
         {
