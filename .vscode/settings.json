@@ -3,9 +3,12 @@
     "editor.wordWrap": "on",
     "latex-workshop.latex.recipes": [
         {
-            "name": "pdflatex",
+            "name": "xelatex ➞ bibtex ➞ xelatex*2",
             "tools": [
-                "pdflatex"
+                "xelatex",
+                "bibtex",
+                "xelatex",
+                "xelatex"
             ]
         },
         {
@@ -16,7 +19,19 @@
                 "pdflatex",
                 "pdflatex"
             ]
-        }
+        },
+        {
+            "name": "pdflatex",
+            "tools": [
+                "pdflatex"
+            ]
+        },
+        {
+            "name": "latexmk",
+            "tools": [
+                "latexmk"
+            ]
+        },
     ],
     "latex-workshop.latex.tools": [
         {
@@ -37,7 +52,35 @@
                 "%DOCFILE%"
             ],
             "env": {}
-        }
+        },
+        {
+            "name": "xelatex",
+            "command": "xelatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "biber",
+            "command": "biber",
+            "args": [
+                "%DOCFILE%"
+            ]
+        },
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "%DOC%"
+            ]
+        },
     ],
     // 默认使用内置查看器进行 PDF 预览
     "latex-workshop.view.pdf.viewer": "tab",
